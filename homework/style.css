@@ -70,9 +70,9 @@ main {
 .homework_entry {
     position: relative;
     display: grid;
-    padding: 0.5rem;
+    padding: 0.25rem 0.5rem 0.5rem 0.5rem;
     grid-template-columns: auto 1fr auto;
-    grid-template-rows: 1.5rem 1rem;
+    grid-template-rows: 2rem 1rem;
     gap: 0.25rem;
     grid-template-areas: "dot task task" "dot classname deadline";
     border-bottom: 0.125rem solid var(--background-color);
@@ -132,12 +132,15 @@ main {
     20% {
         transform: translateX(0%);
     }
+
     90% {
         transform: translateX(calc(-100% + 100vw - 8rem));
     }
+
     95% {
         transform: translateX(calc(-100% + 100vw - 8rem));
     }
+
     100% {
         transform: translateX(0%);
     }
