@@ -1,43 +1,43 @@
-<?php 
+<?php
 
-    // Check login state
-    require("../../res/php/session.php");
-    start_session();
-    require("../../res/php/checkLogin.php");
-    if(!checkLogin()) header("Location: /account");
+// Check login state
+require("../../res/php/session.php");
+start_session();
+require("../../res/php/checkLogin.php");
+if (!checkLogin()) header("Location: https://account.noten-app.de");
 
-    // Get config
-    require("../../config.php");
+// Get config
+require("../../config.php");
 
-    // DB Connection
-    $con = mysqli_connect(
-        config_db_host,
-        config_db_user,
-        config_db_password,
-        config_db_name
-    );
-    if(mysqli_connect_errno()) exit("Error with the Database");
-    
-    // Get all classes
-    $classlist = array();
-    if($stmt = $con->prepare("SELECT name, color, id, last_used, average FROM ".config_table_name_classes." WHERE user_id = ?")) {
-        $stmt->bind_param("s", $_SESSION["user_id"]);
-        $stmt->execute();
-        $stmt->bind_result($class_name, $class_color, $class_id, $class_last_used, $class_grade_average);
-        while ($stmt->fetch()) {
-            $classlist[] = array(
-                "name" => $class_name,
-                "color" => $class_color,
-                "id" => $class_id,
-                "last_used" => $class_last_used,
-                "average" => $class_grade_average
-            );
-        }
-        $stmt->close();
+// DB Connection
+$con = mysqli_connect(
+    config_db_host,
+    config_db_user,
+    config_db_password,
+    config_db_name
+);
+if (mysqli_connect_errno()) exit("Error with the Database");
+
+// Get all classes
+$classlist = array();
+if ($stmt = $con->prepare("SELECT name, color, id, last_used, average FROM " . config_table_name_classes . " WHERE user_id = ?")) {
+    $stmt->bind_param("s", $_SESSION["user_id"]);
+    $stmt->execute();
+    $stmt->bind_result($class_name, $class_color, $class_id, $class_last_used, $class_grade_average);
+    while ($stmt->fetch()) {
+        $classlist[] = array(
+            "name" => $class_name,
+            "color" => $class_color,
+            "id" => $class_id,
+            "last_used" => $class_last_used,
+            "average" => $class_grade_average
+        );
     }
+    $stmt->close();
+}
 
-    // DB Con close
-    $con->close();
+// DB Con close
+$con->close();
 ?>
 
 <!DOCTYPE html>
@@ -90,9 +90,9 @@
                 <div class="class-container">
                     <select name="class-selector" id="class-selector">
                         <?php
-                            foreach($classlist as $class) {
-                                echo '<option value="'.$class["id"].'">'.$class["name"].'</option>';
-                            }
+                        foreach ($classlist as $class) {
+                            echo '<option value="' . $class["id"] . '">' . $class["name"] . '</option>';
+                        }
                         ?>
                     </select>
                 </div>
@@ -131,18 +131,19 @@
                     Due-Date
                 </div>
                 <div class="date-input">
-                    <input type="date" id="date_input-input" value="<?=date("Y-m-d", time() + (60*60*24))?>">
+                    <input type="date" id="date_input-input" value="<?= date("Y-m-d", time() + (60 * 60 * 24)) ?>">
                 </div>
             </div>
         </div>
         <div class="class_add">
             <div>Add task <i class="fas fa-plus"></i></div>
         </div>
-        <div id="class_id" style="display: none;"><?=$_GET["class"]?></div>
+        <div id="class_id" style="display: none;"><?= $_GET["class"] ?></div>
     </main>
     <script src="/res/js/jquery/jquery-3.6.1.min.js"></script>
     <script src="/res/js/themes/themes.js"></script>
     <script src="./type-switch.js"></script>
     <script src="./add-class.js"></script>
 </body>
+
 </html>

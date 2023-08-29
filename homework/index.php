@@ -4,7 +4,7 @@
 require("../res/php/session.php");
 start_session();
 require("../res/php/checkLogin.php");
-if (!checkLogin()) header("Location: /account");
+if (!checkLogin()) header("Location: https://account.noten-app.de");
 
 // Get config
 require("../config.php");
@@ -19,14 +19,14 @@ $con = mysqli_connect(
 if (mysqli_connect_errno()) exit("Error with the Database");
 
 // Check if all tasks should be shown
-if(isset($_GET["showall"]) && $_GET["showall"] == 1) {
+if (isset($_GET["showall"]) && $_GET["showall"] == 1) {
     $showall_text = "";
 } else {
     $showall_text = " AND status = 0";
 }
 
 // Get all tasks
-if ($stmt = $con->prepare("SELECT * FROM " . config_table_name_homework . " WHERE user_id = ?".$showall_text)) {
+if ($stmt = $con->prepare("SELECT * FROM " . config_table_name_homework . " WHERE user_id = ?" . $showall_text)) {
     $stmt->bind_param("s", $_SESSION["user_id"]);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -105,56 +105,56 @@ $con->close();
     <main id="main">
         <div class="homework_list">
             <?php
-                foreach ($homework_ordered as $hw_dategroup) {
-                    echo '<div class="homework_deadline';
-                    if (strtotime($hw_dategroup[0]["deadline"]) < strtotime("today")) echo ' homework_deadline_late';
-                    if (strtotime($hw_dategroup[0]["deadline"]) == strtotime("today")) echo ' homework_deadline_soon';
-                    echo '">';
-                    echo '<div class="homework_deadline_date">' . date("d.m - l", strtotime($hw_dategroup[0]["deadline"])) . '</div>';
-                    echo '<div class="homework_deadline_tasks">';
-                    foreach ($hw_dategroup as $hw_entry) {
-                        echo '<div class="homework_entry">';
-                        echo '<div class="classname">';
-                        foreach ($classes as $class) if ($class["id"] == $hw_entry["class"]) echo $class["name"];
-                        echo '</div><div class="task" onclick="location.assign(\'./edit/?task='.$hw_entry["entry_id"].'\')"><span>' . $hw_entry["text"] . '</span></div>';
-                        echo '<div class="dot" id="dot-'.$hw_entry["entry_id"].'" onclick="toggleState(\''.$hw_entry["entry_id"].'\')">';
-                        if($hw_entry["status"] == 0) echo '<i class="fa-regular fa-circle"></i></div>';
-                        else if($hw_entry["status"] == 2) echo '<i class="fa-regular fa-circle-xmark"></i></div>';
-                        else echo '<i class="fa-regular fa-check-circle"></i></div>';
-                        switch ($hw_entry["type"]) {
-                            case 'b':
-                                echo '<div class="type_badge"><i class="fa-solid fa-book"></i></div>';
-                                break;
-                            case 'w':
-                                echo '<div class="type_badge"><i class="fa-solid fa-sheet-plastic"></i></div>';
-                                break;
-                            case 'v':
-                                echo '<div class="type_badge"><i class="fa-solid fa-language"></i></div>';
-                                break;
-                        }
-                        echo '</div>';
+            foreach ($homework_ordered as $hw_dategroup) {
+                echo '<div class="homework_deadline';
+                if (strtotime($hw_dategroup[0]["deadline"]) < strtotime("today")) echo ' homework_deadline_late';
+                if (strtotime($hw_dategroup[0]["deadline"]) == strtotime("today")) echo ' homework_deadline_soon';
+                echo '">';
+                echo '<div class="homework_deadline_date">' . date("d.m - l", strtotime($hw_dategroup[0]["deadline"])) . '</div>';
+                echo '<div class="homework_deadline_tasks">';
+                foreach ($hw_dategroup as $hw_entry) {
+                    echo '<div class="homework_entry">';
+                    echo '<div class="classname">';
+                    foreach ($classes as $class) if ($class["id"] == $hw_entry["class"]) echo $class["name"];
+                    echo '</div><div class="task" onclick="location.assign(\'./edit/?task=' . $hw_entry["entry_id"] . '\')"><span>' . $hw_entry["text"] . '</span></div>';
+                    echo '<div class="dot" id="dot-' . $hw_entry["entry_id"] . '" onclick="toggleState(\'' . $hw_entry["entry_id"] . '\')">';
+                    if ($hw_entry["status"] == 0) echo '<i class="fa-regular fa-circle"></i></div>';
+                    else if ($hw_entry["status"] == 2) echo '<i class="fa-regular fa-circle-xmark"></i></div>';
+                    else echo '<i class="fa-regular fa-check-circle"></i></div>';
+                    switch ($hw_entry["type"]) {
+                        case 'b':
+                            echo '<div class="type_badge"><i class="fa-solid fa-book"></i></div>';
+                            break;
+                        case 'w':
+                            echo '<div class="type_badge"><i class="fa-solid fa-sheet-plastic"></i></div>';
+                            break;
+                        case 'v':
+                            echo '<div class="type_badge"><i class="fa-solid fa-language"></i></div>';
+                            break;
                     }
                     echo '</div>';
-                    echo '</div>';
                 }
-                if(count($homework_ordered) == 0) {
-                    echo '<div class="homework_empty">No unfinished homework found!</div>';
-                } 
-                if(isset($_GET["showall"]) && $_GET["showall"] == 1) {
-                    ?>
-                    <div class="homework_showall" onclick="location.assign('./?showall=0')">
-                        <div class="homework_showall-text">Do not view all Tasks</div>
-                        <div class="homework_showall-icon"><i class="fa-solid fa-eye-slash"></i></div>
-                    </div>
-                    <?php 
-                } else {
-                    ?>
-                    <div class="homework_showall" onclick="location.assign('./?showall=1')">
-                        <div class="homework_showall-text">View all Tasks</div>
-                        <div class="homework_showall-icon"><i class="fa-solid fa-eye"></i></div>
-                    </div>
-                    <?php 
-                }
+                echo '</div>';
+                echo '</div>';
+            }
+            if (count($homework_ordered) == 0) {
+                echo '<div class="homework_empty">No unfinished homework found!</div>';
+            }
+            if (isset($_GET["showall"]) && $_GET["showall"] == 1) {
+            ?>
+                <div class="homework_showall" onclick="location.assign('./?showall=0')">
+                    <div class="homework_showall-text">Do not view all Tasks</div>
+                    <div class="homework_showall-icon"><i class="fa-solid fa-eye-slash"></i></div>
+                </div>
+            <?php
+            } else {
+            ?>
+                <div class="homework_showall" onclick="location.assign('./?showall=1')">
+                    <div class="homework_showall-text">View all Tasks</div>
+                    <div class="homework_showall-icon"><i class="fa-solid fa-eye"></i></div>
+                </div>
+            <?php
+            }
             ?>
         </div>
         <div class="homework_add" onclick="location.assign('./add/')">
@@ -166,7 +166,9 @@ $con->close();
     <script src="state.js"></script>
     <script>
         // Check which tasks are overflowing
-        document.querySelectorAll(".task").forEach(task => { if(task.offsetWidth < task.querySelector("span").scrollWidth) task.querySelector("span").classList.add("scroll")});
+        document.querySelectorAll(".task").forEach(task => {
+            if (task.offsetWidth < task.querySelector("span").scrollWidth) task.querySelector("span").classList.add("scroll")
+        });
     </script>
 </body>
 
