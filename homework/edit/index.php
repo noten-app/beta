@@ -1,56 +1,56 @@
 <?php
 
-    // Check login state
-    require("../../res/php/session.php");
-    start_session();
-    require("../../res/php/checkLogin.php");
-    if(!checkLogin()) header("Location: /account");
+// Check login state
+require("../../res/php/session.php");
+start_session();
+require("../../res/php/checkLogin.php");
+if (!checkLogin()) header("Location: https://account.noten-app.de");
 
-    // Check if task id is set
-    if(!isset($_GET["task"])) header("Location: /homework");
-    $task_id = $_GET["task"];
+// Check if task id is set
+if (!isset($_GET["task"])) header("Location: /homework");
+$task_id = $_GET["task"];
 
-    // Get config
-    require("../../config.php");
+// Get config
+require("../../config.php");
 
-    // DB Connection
-    $con = mysqli_connect(
-        config_db_host,
-        config_db_user,
-        config_db_password,
-        config_db_name
-    );
-    if(mysqli_connect_errno()) exit("Error with the Database");
-    
-    // Get all classes
-    $classlist = array();
-    if($stmt = $con->prepare("SELECT name, color, id, last_used, average FROM ".config_table_name_classes." WHERE user_id = ?")) {
-        $stmt->bind_param("s", $_SESSION["user_id"]);
-        $stmt->execute();
-        $stmt->bind_result($class_name, $class_color, $class_id, $class_last_used, $class_grade_average);
-        while ($stmt->fetch()) {
-            $classlist[] = array(
-                "name" => $class_name,
-                "color" => $class_color,
-                "id" => $class_id,
-                "last_used" => $class_last_used,
-                "average" => $class_grade_average
-            );
-        }
-        $stmt->close();
+// DB Connection
+$con = mysqli_connect(
+    config_db_host,
+    config_db_user,
+    config_db_password,
+    config_db_name
+);
+if (mysqli_connect_errno()) exit("Error with the Database");
+
+// Get all classes
+$classlist = array();
+if ($stmt = $con->prepare("SELECT name, color, id, last_used, average FROM " . config_table_name_classes . " WHERE user_id = ?")) {
+    $stmt->bind_param("s", $_SESSION["user_id"]);
+    $stmt->execute();
+    $stmt->bind_result($class_name, $class_color, $class_id, $class_last_used, $class_grade_average);
+    while ($stmt->fetch()) {
+        $classlist[] = array(
+            "name" => $class_name,
+            "color" => $class_color,
+            "id" => $class_id,
+            "last_used" => $class_last_used,
+            "average" => $class_grade_average
+        );
     }
+    $stmt->close();
+}
 
-    // Get task
-    if($stmt = $con->prepare("SELECT class, type, text, deadline FROM ".config_table_name_homework." WHERE entry_id = ? AND user_id = ?")) {
-        $stmt->bind_param("is", $task_id, $_SESSION["user_id"]);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $task = $result->fetch_assoc();
-        $stmt->close();
-    }
+// Get task
+if ($stmt = $con->prepare("SELECT class, type, text, deadline FROM " . config_table_name_homework . " WHERE entry_id = ? AND user_id = ?")) {
+    $stmt->bind_param("is", $task_id, $_SESSION["user_id"]);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $task = $result->fetch_assoc();
+    $stmt->close();
+}
 
-    // DB Con close
-    $con->close();
+// DB Con close
+$con->close();
 ?>
 
 <!DOCTYPE html>
@@ -103,10 +103,10 @@
                 <div class="class-container">
                     <select name="class-selector" id="class-selector">
                         <?php
-                            foreach($classlist as $class) {
-                                if ($task["class"] == $class["id"]) echo '<option value="'.$class["id"].'" selected>'.$class["name"].'</option>';
-                                else echo '<option value="'.$class["id"].'">'.$class["name"].'</option>';
-                            }
+                        foreach ($classlist as $class) {
+                            if ($task["class"] == $class["id"]) echo '<option value="' . $class["id"] . '" selected>' . $class["name"] . '</option>';
+                            else echo '<option value="' . $class["id"] . '">' . $class["name"] . '</option>';
+                        }
                         ?>
                     </select>
                 </div>
@@ -117,16 +117,16 @@
                 </div>
                 <div class="homework_type-switch">
                     <div class="button_divider">
-                        <div class="button_divider-button<?php if($task["type"] == "b") echo ' button_divider-button_active'?>" type-letter="b">
+                        <div class="button_divider-button<?php if ($task["type"] == "b") echo ' button_divider-button_active' ?>" type-letter="b">
                             Book
                         </div>
-                        <div class="button_divider-button<?php if($task["type"] == "v") echo ' button_divider-button_active'?>" type-letter="v">
+                        <div class="button_divider-button<?php if ($task["type"] == "v") echo ' button_divider-button_active' ?>" type-letter="v">
                             Vocabulary
                         </div>
-                        <div class="button_divider-button<?php if($task["type"] == "w") echo ' button_divider-button_active'?>" type-letter="w">
+                        <div class="button_divider-button<?php if ($task["type"] == "w") echo ' button_divider-button_active' ?>" type-letter="w">
                             Worksheet
                         </div>
-                        <div class="button_divider-button<?php if($task["type"] == "o") echo ' button_divider-button_active'?>" type-letter="o">
+                        <div class="button_divider-button<?php if ($task["type"] == "o") echo ' button_divider-button_active' ?>" type-letter="o">
                             Other
                         </div>
                     </div>
@@ -137,7 +137,7 @@
                     Task
                 </div>
                 <div class="task-container">
-                    <input type="text" id="task-input" maxlength="75" value="<?=$task["text"]?>">
+                    <input type="text" id="task-input" maxlength="75" value="<?= $task["text"] ?>">
                 </div>
             </div>
             <div class="date">
@@ -145,7 +145,7 @@
                     Due-Date
                 </div>
                 <div class="date-input">
-                    <input type="date" id="date_input-input" value="<?=$task["deadline"]?>">
+                    <input type="date" id="date_input-input" value="<?= $task["deadline"] ?>">
                 </div>
             </div>
         </div>
@@ -154,11 +154,11 @@
             <div id="task_mark_undone"><i class="fa-regular fa-circle-xmark"></i></div>
             <div id="task_delete"><i class="fa-solid fa-trash-can"></i></div>
         </div>
-        <div id="class_id" style="display: none;"><?=$_GET["class"]?></div>
+        <div id="class_id" style="display: none;"><?= $_GET["class"] ?></div>
     </main>
     <script>
-        var type = "<?=$task["type"]?>";
-        var task_id = "<?=$task_id?>";
+        var type = "<?= $task["type"] ?>";
+        var task_id = "<?= $task_id ?>";
     </script>
     <script src="/res/js/jquery/jquery-3.6.1.min.js"></script>
     <script src="/res/js/themes/themes.js"></script>

@@ -4,7 +4,7 @@
 require("../res/php/session.php");
 start_session();
 require("../res/php/checkLogin.php");
-if (!checkLogin()) header("Location: /account");
+if (!checkLogin()) header("Location: https://account.noten-app.de");
 
 // Get config
 require("../config.php");
@@ -90,7 +90,7 @@ $con->close();
                     <i class="fas fa-key"></i>
                 </div>
             </div>
-            <div class="dropdown_container container_item" onclick="location.assign('/account/logout');">
+            <div class="dropdown_container container_item" onclick="location.assign('https:\/\/account.noten-app.de/logout');">
                 <div class="dropdown_container-name">
                     Logout
                 </div>

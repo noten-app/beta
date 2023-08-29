@@ -8,7 +8,7 @@ $class_id = $_GET["class"];
 require("../../../res/php/session.php");
 start_session();
 require("../../../res/php/checkLogin.php");
-if (!checkLogin()) header("Location: /account");
+if (!checkLogin()) header("Location: https://account.noten-app.de");
 
 // Get config
 require("../../../config.php");

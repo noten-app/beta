@@ -1,25 +1,25 @@
-<?php 
+<?php
 
-    // Check login state
-    require("../../res/php/session.php");
-    start_session();
-    require("../../res/php/checkLogin.php");
-    if(!checkLogin()) header("Location: /account");
+// Check login state
+require("../../res/php/session.php");
+start_session();
+require("../../res/php/checkLogin.php");
+if (!checkLogin()) header("Location: https://account.noten-app.de");
 
-    // Get config
-    require("../../config.php");
+// Get config
+require("../../config.php");
 
-    // DB Connection
-    $con = mysqli_connect(
-        config_db_host,
-        config_db_user,
-        config_db_password,
-        config_db_name
-    );
-    if(mysqli_connect_errno()) exit("Error with the Database");
+// DB Connection
+$con = mysqli_connect(
+    config_db_host,
+    config_db_user,
+    config_db_password,
+    config_db_name
+);
+if (mysqli_connect_errno()) exit("Error with the Database");
 
-    // DB Con close
-    $con->close();
+// DB Con close
+$con->close();
 ?>
 
 <!DOCTYPE html>
@@ -81,25 +81,25 @@
                     <div class="grading-option">
                         <div class="grading-option-title">Exams</div>
                         <div class="grading-option-input">
-                            <input type="number" id="grading_option-type_k" value="2"/>
+                            <input type="number" id="grading_option-type_k" value="2" />
                         </div>
                     </div>
                     <div class="grading-option">
                         <div class="grading-option-title">Verbal</div>
                         <div class="grading-option-input">
-                        <input type="number" id="grading_option-type_m" value="1"/>
+                            <input type="number" id="grading_option-type_m" value="1" />
                         </div>
                     </div>
                     <div class="grading-option" id="grading-option_tests">
                         <div class="grading-option-title">Tests</div>
                         <div class="grading-option-input">
-                            <input type="number" id="grading_option-type_t" value="1"/>
+                            <input type="number" id="grading_option-type_t" value="1" />
                         </div>
                     </div>
                     <div class="grading-option">
                         <div class="grading-option-title">Other</div>
                         <div class="grading-option-input">
-                            <input type="number" id="grading_option-type_s" value="0"/>
+                            <input type="number" id="grading_option-type_s" value="0" />
                         </div>
                     </div>
                 </div>
@@ -132,7 +132,7 @@
         <div class="class_add">
             <div>Create class <i class="fas fa-plus"></i></div>
         </div>
-        <div id="class_id" style="display: none;"><?=$_GET["class"]?></div>
+        <div id="class_id" style="display: none;"><?= $_GET["class"] ?></div>
     </main>
     <script src="/res/js/jquery/jquery-3.6.1.min.js"></script>
     <script src="/res/js/themes/themes.js"></script>
