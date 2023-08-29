@@ -241,7 +241,7 @@ $con->close();
             <div>Add grade <i class="fas fa-plus"></i></div>
         </div>
     </main>
-    <script src="/res/js/themes/themes.js"></script>
+    <script src="https://assets.noten-app.de/js/themes/themes.js"></script>
     <script src="/res/js/point-system.js"></script>
     <script src="./view-cycler.js"></script>
 </body>

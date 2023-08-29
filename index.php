@@ -205,9 +205,9 @@ if ($stmt = $con->prepare("SELECT average FROM " . config_table_name_classes . "
             </div>
         <?php } ?>
     </main>
-    <script src="/res/js/themes/themes.js"></script>
-    <script src="/res/js/jquery/jquery-3.6.1.min.js"></script>
-    <script src="/res/js/chartjs/chart.min.js"></script>
+    <script src="https://assets.noten-app.de/js/themes/themes.js"></script>
+    <script src="https://assets.noten-app.de/js/jquery/jquery-3.6.1.min.js"></script>
+    <script src="https://assets.noten-app.de/js/chartjs/chart.min.js"></script>
     <script src="/home/state.js"></script>
     <script>
         new Chart("homework_status_chart", {

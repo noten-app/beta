@@ -160,8 +160,8 @@ $con->close();
         var type = "<?= $task["type"] ?>";
         var task_id = "<?= $task_id ?>";
     </script>
-    <script src="/res/js/jquery/jquery-3.6.1.min.js"></script>
-    <script src="/res/js/themes/themes.js"></script>
+    <script src="https://assets.noten-app.de/js/jquery/jquery-3.6.1.min.js"></script>
+    <script src="https://assets.noten-app.de/js/themes/themes.js"></script>
     <script src="./type-switch.js"></script>
     <script src="./edit-class.js"></script>
 </body>

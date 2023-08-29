@@ -162,8 +162,8 @@ $con->close();
         </div>
         <div id="class_id" style="display: none;"><?= $_GET["class"] ?></div>
     </main>
-    <script src="/res/js/jquery/jquery-3.6.1.min.js"></script>
-    <script src="/res/js/themes/themes.js"></script>
+    <script src="https://assets.noten-app.de/js/jquery/jquery-3.6.1.min.js"></script>
+    <script src="https://assets.noten-app.de/js/themes/themes.js"></script>
     <script src="./choose-type.js"></script>
     <?php
     if (isset($_SESSION["setting_system"]) && $_SESSION["setting_system"] == "punkte") echo '<script src="./choose-points.js"></script>';

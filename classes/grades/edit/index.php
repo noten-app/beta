@@ -161,8 +161,8 @@ $con->close();
         </div>
         <div id="grade_id" style="display: none;"><?= $grade_id ?></div>
     </main>
-    <script src="/res/js/jquery/jquery-3.6.1.min.js"></script>
-    <script src="/res/js/themes/themes.js"></script>
+    <script src="https://assets.noten-app.de/js/jquery/jquery-3.6.1.min.js"></script>
+    <script src="https://assets.noten-app.de/js/themes/themes.js"></script>
     <script src="./choose-type.js"></script>
     <script src="./add-grade.js"></script>
     <script src="./delete-grade.js"></script>

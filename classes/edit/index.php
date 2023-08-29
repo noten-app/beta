@@ -173,8 +173,8 @@ $con->close();
         </div>
         <div id="classID" style="display: none;"><?= $class_id ?></div>
     </main>
-    <script src="/res/js/jquery/jquery-3.6.1.min.js"></script>
-    <script src="/res/js/themes/themes.js"></script>
+    <script src="https://assets.noten-app.de/js/jquery/jquery-3.6.1.min.js"></script>
+    <script src="https://assets.noten-app.de/js/themes/themes.js"></script>
     <script src="./test-switch.js"></script>
     <script src="./view-cycler.js"></script>
     <script src="./modify-class.js"></script>
