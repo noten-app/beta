@@ -118,7 +118,6 @@ if ($stmt = $con->prepare("SELECT average FROM " . config_table_name_classes . "
     <meta name="theme-color" content="#ffffff">
     <link rel="manifest" href="/app.webmanifest">
     <meta name="msapplication-config" content="/browserconfig.xml">
-    <?php require("./res/php/noMailCheck.php"); ?>
 </head>
 
 <body>
