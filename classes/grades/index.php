@@ -239,7 +239,7 @@ $con->close();
             </div>
             <div class="statistics"></div>
         </div>
-        <div class="grade_add" onclick="location.assign('/classes/grades/add/?class=<?= $_GET['class'] ?>')">
+        <div class="grade_add" onclick="location.assign('/classes/grades/add/?class=<?= $class_id ?>')">
             <div>Add grade <i class="fas fa-plus"></i></div>
         </div>
     </main>
