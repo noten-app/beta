@@ -2,7 +2,7 @@
 
 // Check if class url-parameter is given
 if (!isset($_GET["class"])) header("Location: /classes");
-$class_id = $_GET["class"];
+$class_id = htmlspecialchars($_GET["class"]);
 // Check if class is a-z or 0-9
 if (!preg_match("/^[a-z0-9]*$/", $class_id)) header("Location: /classes");
 
