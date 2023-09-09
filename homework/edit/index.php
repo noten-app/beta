@@ -1,5 +1,11 @@
 <?php
 
+// Check if class url-parameter is given
+if (!isset($_GET["class"])) header("Location: /classes");
+$class_id = $_GET["class"];
+// Check if class is a-z or 0-9
+if (!preg_match("/^[a-zA-Z0-9]*$/", $class_id)) header("Location: /classes");
+
 // Check login state
 require("../../res/php/session.php");
 start_session();
@@ -9,6 +15,9 @@ if (!checkLogin()) header("Location: https://account.noten-app.de");
 // Check if task id is set
 if (!isset($_GET["task"])) header("Location: /homework");
 $task_id = $_GET["task"];
+// Check if task is a-z or 0-9
+if (!preg_match("/^[a-zA-Z0-9]*$/", $task_id)) header("Location: /classes");
+
 
 // Get config
 require("../../config.php");
@@ -154,7 +163,7 @@ $con->close();
             <div id="task_mark_undone"><i class="fa-regular fa-circle-xmark"></i></div>
             <div id="task_delete"><i class="fa-solid fa-trash-can"></i></div>
         </div>
-        <div id="class_id" style="display: none;"><?= $_GET["class"] ?></div>
+        <div id="class_id" style="display: none;"><?= $class_id ?></div>
     </main>
     <script>
         var type = "<?= $task["type"] ?>";

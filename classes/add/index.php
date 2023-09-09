@@ -1,5 +1,11 @@
 <?php
 
+// Check if class url-parameter is given
+if (!isset($_GET["class"])) header("Location: /classes");
+$class_id = $_GET["class"];
+// Check if class is a-z or 0-9
+if (!preg_match("/^[a-zA-Z0-9]*$/", $class_id)) header("Location: /classes");
+
 // Check login state
 require("../../res/php/session.php");
 start_session();
@@ -132,7 +138,7 @@ $con->close();
         <div class="class_add">
             <div>Create class <i class="fas fa-plus"></i></div>
         </div>
-        <div id="class_id" style="display: none;"><?= $_GET["class"] ?></div>
+        <div id="class_id" style="display: none;"><?= $class_id ?></div>
     </main>
     <script src="https://assets.noten-app.de/js/jquery/jquery-3.6.1.min.js"></script>
     <script src="https://assets.noten-app.de/js/themes/themes.js"></script>
