@@ -4,7 +4,7 @@
 if (!isset($_GET["class"])) header("Location: /classes");
 $class_id = $_GET["class"];
 // Check if class is a-z or 0-9
-if (!preg_match("/^[a-zA-Z0-9]*$/", $class_id)) header("Location: /classes");
+if (!preg_match("/^[a-z0-9]*$/", $class_id)) header("Location: /classes");
 
 // Check login state
 require("../../res/php/session.php");
@@ -16,7 +16,7 @@ if (!checkLogin()) header("Location: https://account.noten-app.de");
 if (!isset($_GET["task"])) header("Location: /homework");
 $task_id = $_GET["task"];
 // Check if task is a-z or 0-9
-if (!preg_match("/^[a-zA-Z0-9]*$/", $task_id)) header("Location: /classes");
+if (!preg_match("/^[a-z0-9]*$/", $task_id)) header("Location: /classes");
 
 
 // Get config
