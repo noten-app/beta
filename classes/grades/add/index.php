@@ -3,6 +3,8 @@
 // Check if class url-parameter is given
 if (!isset($_GET["class"])) header("Location: /classes");
 $class_id = $_GET["class"];
+// Check if class is a-z or 0-9
+if (!preg_match("/^[a-zA-Z0-9]*$/", $class_id)) header("Location: /classes");
 
 // Check login state
 require("../../../res/php/session.php");
@@ -82,7 +84,7 @@ $con->close();
                 <i class="fas fa-home"></i>
             </div>
         </a>
-        <a href="/classes/grades/?class=<?= $_GET["class"] ?>" class="nav-link">
+        <a href="/classes/grades/?class=<?= $class_id ?>" class="nav-link">
             <div class="navbar_icon">
                 <i class="fa-solid fa-arrow-left"></i>
             </div>
@@ -160,7 +162,7 @@ $con->close();
         <div class="grade_add">
             <div>Add new grade <i class="fas fa-plus"></i></div>
         </div>
-        <div id="class_id" style="display: none;"><?= $_GET["class"] ?></div>
+        <div id="class_id" style="display: none;"><?= $class_id ?></div>
     </main>
     <script src="https://assets.noten-app.de/js/jquery/jquery-3.6.1.min.js"></script>
     <script src="https://assets.noten-app.de/js/themes/themes.js"></script>
