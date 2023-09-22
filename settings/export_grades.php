@@ -20,8 +20,8 @@ if (mysqli_connect_errno()) exit("Error with the Database");
 
 // Get all classes
 $classlist = array();
-if ($stmt = $con->prepare("SELECT name, color, id, last_used, average FROM " . config_table_name_classes . " WHERE user_id = ? ORDER BY average ASC")) {
-    $stmt->bind_param("s", $_SESSION["user_id"]);
+if ($stmt = $con->prepare("SELECT name, color, id, last_used, average FROM " . config_table_name_classes . " WHERE user_id = ? AND year = ? ORDER BY average ASC")) {
+    $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_years"]);
     $stmt->execute();
     $stmt->bind_result($class_name, $class_color, $class_id, $class_last_used, $class_grade_average);
     while ($stmt->fetch()) {
@@ -36,6 +36,15 @@ if ($stmt = $con->prepare("SELECT name, color, id, last_used, average FROM " . c
     $stmt->close();
 }
 
+// Get year title
+if ($stmt = $con->prepare("SELECT name FROM " . config_table_name_school_years . " WHERE id = ?")) {
+    $stmt->bind_param("s", $_SESSION["setting_years"]);
+    $stmt->execute();
+    $stmt->bind_result($year_name);
+    $stmt->fetch();
+    $stmt->close();
+}
+
 // Create PDF
 require('../res/php/fpdf185/fpdf.php');
 $pdf = new FPDF('P', 'mm', 'A4');
@@ -47,7 +56,7 @@ $pdf->AddPage();
 $pdf->Image('../res/img/logo.png', 10, 6, 20);
 $pdf->SetFont('Arial', 'B', 15);
 $pdf->Cell(70);
-$pdf->Cell(60, 10, 'Noten-App.de - Export', 0, 0, 'C');
+$pdf->Cell(60, 10, 'Noten-App.de - Export (' . $year_name . ')', 0, 0, 'C');
 $pdf->Ln(20);
 
 // - - - - - - - //
