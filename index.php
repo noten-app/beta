@@ -23,8 +23,8 @@ if (mysqli_connect_errno()) exit("Error with the Database");
 
 // Count homework status
 // Count for status 0,1 or 2 seperately
-if ($stmt = $con->prepare("SELECT status FROM " . config_table_name_homework . " WHERE user_id = ?")) {
-    $stmt->bind_param("s", $_SESSION["user_id"]);
+if ($stmt = $con->prepare("SELECT status FROM " . config_table_name_homework . " WHERE user_id = ? AND year = ?")) {
+    $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_years"]);
     $stmt->execute();
     $stmt->bind_result($status);
     $status_list = [];
@@ -39,12 +39,12 @@ if (!isset($status_count[1])) $status_count[1] = 0;
 if (!isset($status_count[2])) $status_count[2] = 0;
 
 // Get homework due tomorrow or earlier
-if ($stmt = $con->prepare("SELECT * FROM " . config_table_name_homework . " WHERE user_id = ? AND deadline <= ? AND status = 0")) {
+if ($stmt = $con->prepare("SELECT * FROM " . config_table_name_homework . " WHERE user_id = ? AND deadline <= ? AND status = 0 AND year = ?")) {
     // If day is sat or sun (and friday - AFTER 15 o clock), set to monday
     if (date("N") == 5 && date("H") >= 15) $tomorrow = date("Y-m-d", strtotime("+3 day"));
     else if (date("N") == 6) $tomorrow = date("Y-m-d", strtotime("+2 day"));
     else $tomorrow = date("Y-m-d", strtotime("+1 day"));
-    $stmt->bind_param("ss", $_SESSION["user_id"], $tomorrow);
+    $stmt->bind_param("sss", $_SESSION["user_id"], $tomorrow, $_SESSION["setting_years"]);
     $stmt->execute();
     $result = $stmt->get_result();
     $homework = $result->fetch_all(MYSQLI_ASSOC);
@@ -52,15 +52,15 @@ if ($stmt = $con->prepare("SELECT * FROM " . config_table_name_homework . " WHER
 }
 
 // Get all classes
-if ($stmt = $con->prepare("SELECT * FROM " . config_table_name_classes . " WHERE user_id = ?")) {
-    $stmt->bind_param("s", $_SESSION["user_id"]);
+if ($stmt = $con->prepare("SELECT * FROM " . config_table_name_classes . " WHERE user_id = ? AND year = ?")) {
+    $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_years"]);
     $stmt->execute();
     $result = $stmt->get_result();
     $classes = $result->fetch_all(MYSQLI_ASSOC);
 }
 // Count grades
-if ($stmt = $con->prepare("SELECT COUNT(*) FROM " . config_table_name_grades . " WHERE user_id = ?")) {
-    $stmt->bind_param("s", $_SESSION["user_id"]);
+if ($stmt = $con->prepare("SELECT COUNT(*) FROM " . config_table_name_grades . " WHERE user_id = ? AND year = ?")) {
+    $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_years"]);
     $stmt->execute();
     $stmt->bind_result($num_of_grades);
     $stmt->fetch();
@@ -68,8 +68,8 @@ if ($stmt = $con->prepare("SELECT COUNT(*) FROM " . config_table_name_grades . "
 }
 
 // Get last inserted grade
-if ($stmt = $con->prepare("SELECT grade FROM " . config_table_name_grades . " WHERE user_id = ? ORDER BY id DESC LIMIT 1")) {
-    $stmt->bind_param("s", $_SESSION["user_id"]);
+if ($stmt = $con->prepare("SELECT grade FROM " . config_table_name_grades . " WHERE user_id = ? AND year = ? ORDER BY id DESC LIMIT 1")) {
+    $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_years"]);
     $stmt->execute();
     $stmt->bind_result($last_grade);
     $stmt->fetch();
@@ -77,8 +77,8 @@ if ($stmt = $con->prepare("SELECT grade FROM " . config_table_name_grades . " WH
 }
 
 // Calculate average
-if ($stmt = $con->prepare("SELECT average FROM " . config_table_name_classes . " WHERE user_id = ?")) {
-    $stmt->bind_param("s", $_SESSION["user_id"]);
+if ($stmt = $con->prepare("SELECT average FROM " . config_table_name_classes . " WHERE user_id = ? AND year = ?")) {
+    $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_years"]);
     $stmt->execute();
     $stmt->bind_result($average);
     $average_list = [];

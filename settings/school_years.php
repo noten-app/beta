@@ -29,7 +29,7 @@ if ($stmt = $con->prepare("SELECT COUNT(*) FROM " . config_table_name_school_yea
 }
 
 // Set school year
-$_SESSION["school_year"] = $_POST["school_year"];
+$_SESSION["setting_years"] = $_POST["school_year"];
 if ($stmt = $con->prepare("UPDATE " . config_table_name_accounts . " SET school_year = ? WHERE id = ?")) {
     $stmt->bind_param("ss", $_SESSION["school_year"], $_SESSION["user_id"]);
     $stmt->execute();

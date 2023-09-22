@@ -26,16 +26,16 @@ if (isset($_GET["showall"]) && $_GET["showall"] == 1) {
 }
 
 // Get all tasks
-if ($stmt = $con->prepare("SELECT * FROM " . config_table_name_homework . " WHERE user_id = ?" . $showall_text)) {
-    $stmt->bind_param("s", $_SESSION["user_id"]);
+if ($stmt = $con->prepare("SELECT * FROM " . config_table_name_homework . " WHERE user_id = ? AND year = ?" . $showall_text)) {
+    $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_years"]);
     $stmt->execute();
     $result = $stmt->get_result();
     $homework = $result->fetch_all(MYSQLI_ASSOC);
 }
 
 // Get all classes
-if ($stmt = $con->prepare("SELECT * FROM " . config_table_name_classes . " WHERE user_id = ?")) {
-    $stmt->bind_param("s", $_SESSION["user_id"]);
+if ($stmt = $con->prepare("SELECT * FROM " . config_table_name_classes . " WHERE user_id = ? and year = ?")) {
+    $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_years"]);
     $stmt->execute();
     $result = $stmt->get_result();
     $classes = $result->fetch_all(MYSQLI_ASSOC);
