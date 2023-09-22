@@ -18,6 +18,18 @@ $con = mysqli_connect(
 );
 if (mysqli_connect_errno()) exit("Error with the Database");
 
+// Get years
+if ($stmt = $con->prepare("SELECT id, name FROM " . config_table_name_school_years . " WHERE owner = ?")) {
+    $stmt->bind_param("s", $_SESSION["user_id"]);
+    $stmt->execute();
+    $stmt->bind_result($year, $name);
+    $school_years = [];
+    while ($stmt->fetch()) {
+        array_push($school_years, ["id" => $year, "name" => $name]);
+    }
+    $stmt->close();
+}
+
 // DB Con close
 $con->close();
 ?>
@@ -164,6 +176,27 @@ $con->close();
             <p>You can fix this by changing the grades or deleting them.</p>
             <p>You also could revert back to the old System with Grades! Then all your Grades will be automatically restored from the now converted Grade-Points.</p>
         </div>
+        <div class="overlay" id="overlay_schoolyears">
+            <h1 class="overlay-title">School-Years</h1>
+            <div class="dropdown_container container_item">
+                <div class="dropdown_container-name" onclick="location.assign('add-year')">
+                    Add School-Year
+                </div>
+                <div class="dropdown_container-dropdown_icon">
+                    <i class="fa-solid fa-calendar-plus"></i>
+                </div>
+            </div>
+            <?php
+            foreach ($school_years as $year) {
+                echo '<div class="dropdown_container container_item"';
+                echo 'onclick="loadYear(\'' . $year["id"] . '\');"';
+                if ($_SESSION["school_year"] == $year["id"]) echo 'style="background-color: var(--background3-color);"';
+                echo '><div class="dropdown_container-name">';
+                echo "<span>" . htmlspecialchars($year["name"]) . "</span>";
+                echo '</div></div>';
+            }
+            ?>
+        </div>
     </div>
     <main id="main">
         <div class="group_container" id="account-settings" onclick="open_overlay('overlay_account');">
@@ -229,6 +262,14 @@ $con->close();
                     <div <?php if ($_SESSION["setting_sorting"] == "lastuse") echo 'class="button_divider-button_active" '; ?>onclick="setSorting('lastuse');">
                         Last use
                     </div>
+                </div>
+            </div>
+            <div class="dropdown_container container_item" onclick="open_overlay('overlay_schoolyears');">
+                <div class="dropdown_container-name">
+                    School-Years
+                </div>
+                <div class="dropdown_container-dropdown_icon">
+                    <i class="fas fa-calendar-day"></i>
                 </div>
             </div>
         </div>
@@ -350,6 +391,7 @@ $con->close();
     <script src="rounding.js"></script>
     <script src="sorting.js"></script>
     <script src="grade_system.js"></script>
+    <script src="school_years.js"></script>
 </body>
 
 </html>
