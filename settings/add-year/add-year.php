@@ -91,4 +91,8 @@ if ($stmt = $con->prepare("INSERT INTO " . config_table_name_school_years . " (i
     $stmt->execute();
     $stmt->close();
 }
+
+// Set as current year
+$_SESSION["setting_years"] = $year_id;
+
 exit("success");
