@@ -29,8 +29,8 @@ else if ($sorting == "lastuse") $sorting_appendix = " ORDER BY last_used DESC";
 
 // Get all classes
 $classlist = array();
-if ($stmt = $con->prepare("SELECT name, color, id, last_used, average FROM " . config_table_name_classes . " WHERE user_id = ?" . $sorting_appendix)) {
-    $stmt->bind_param("s", $_SESSION["user_id"]);
+if ($stmt = $con->prepare("SELECT name, color, id, last_used, average FROM " . config_table_name_classes . " WHERE user_id = ? AND year = ?" . $sorting_appendix)) {
+    $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_years"]);
     $stmt->execute();
     $stmt->bind_result($class_name, $class_color, $class_id, $class_last_used, $class_grade_average);
     while ($stmt->fetch()) {

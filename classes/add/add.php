@@ -44,8 +44,8 @@ else $gradingTypeT = strval($gradingTypeT);
 $classColor = str_replace("#", "", $classColor);
 
 // Add class to DB and get inserted ID
-if ($stmt = $con->prepare('INSERT INTO ' . config_table_name_classes . ' (name, color, user_id, grade_k, grade_m, grade_t, grade_s) VALUES (?, ?, ?, ?, ?, ?, ?)')) {
-    $stmt->bind_param('sssiisi', $className, $classColor, $_SESSION["user_id"], $gradingTypeK, $gradingTypeM, $gradingTypeT, $gradingTypeS);
+if ($stmt = $con->prepare('INSERT INTO ' . config_table_name_classes . ' (name, color, user_id, grade_k, grade_m, grade_t, grade_s, year) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')) {
+    $stmt->bind_param('sssiisis', $className, $classColor, $_SESSION["user_id"], $gradingTypeK, $gradingTypeM, $gradingTypeT, $gradingTypeS, $_SESSION["setting_years"]);
     $stmt->execute();
     $classID = $stmt->insert_id;
     $stmt->close();
