@@ -43,6 +43,7 @@ main {
 }
 
 .button_divider>div {
+
     display: grid;
     place-content: center;
     text-align: center;
@@ -52,7 +53,7 @@ main {
     cursor: pointer;
 }
 
-.button_divider>div:not(.button_divider-button_active):hover{
+.button_divider>div:not(.button_divider-button_active):hover {
     background-color: var(--background2-color);
 }
 
@@ -151,4 +152,73 @@ Theme icon
 */
 #theme-icon {
     cursor: pointer;
+}
+
+/* 
+Add year
+*/
+
+#current-year {
+    display: grid;
+    grid-template-columns: 1fr min-content;
+    grid-template-rows: 1fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas: "account-greeting account-icon";
+    cursor: pointer;
+}
+
+.calendar-icon {
+    grid-area: account-icon;
+    display: grid;
+    place-items: center;
+    font-size: 2rem;
+    color: var(--accent-color);
+}
+
+.current-year {
+    grid-area: account-greeting;
+    display: flex;
+    flex-direction: column;
+}
+
+#current-year-title {
+    color: #bbb;
+    font-size: 0.75rem;
+}
+
+#current-year-name {
+    font-size: 1.25rem;
+}
+
+
+
+#copy-title {
+    color: #bbb;
+    font-size: 1.25rem;
+}
+
+#copy-checkboxes {
+    font-size: 1rem;
+}
+
+#year-name-input {
+    background: var(--background-color);
+    border: 0;
+    color: var(--text-color);
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    width: 100%;
+    margin-top: 0.5rem;
+    font-size: 1rem;
+}
+
+#submit_button {
+    background-color: var(--accent-color);
+    padding: 1rem;
+    border-radius: 1rem;
+    cursor: pointer;
+    text-align: center;
+    color: var(--background-color);
+    margin-bottom: 0.5rem;
 }
