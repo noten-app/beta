@@ -39,8 +39,8 @@ $task = htmlentities($task);
 $date_given = date("Y-m-d");
 
 // Add class to DB and get inserted ID
-if ($stmt = $con->prepare('INSERT INTO ' . config_table_name_homework . ' (user_id, class, given, deadline, text, type) VALUES (?, ?, ?, ?, ?, ?)')) {
-    $stmt->bind_param('sissss', $_SESSION["user_id"], $class, $date_given, $date_due, $task, $type);
+if ($stmt = $con->prepare('INSERT INTO ' . config_table_name_homework . ' (user_id, class, given, deadline, text, type, year) VALUES (?, ?, ?, ?, ?, ?, ?)')) {
+    $stmt->bind_param('sisssss', $_SESSION["user_id"], $class, $date_given, $date_due, $task, $type, $_SESSION["setting_years"]);
     $stmt->execute();
     $stmt->close();
     exit("success");

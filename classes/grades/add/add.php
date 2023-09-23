@@ -67,8 +67,8 @@ if (!preg_match("/^[kmst]$/", $type)) die("invalid-type");
 if (strlen($note) > 25) die("invalid-note");
 
 // Add grade
-if ($stmt = $con->prepare('INSERT INTO ' . config_table_name_grades . ' (user_id, class, note, type, date, grade) VALUES (?, ?, ?, ?, ?, ?)')) {
-    $stmt->bind_param('sissss', $_SESSION["user_id"], $class_id, $note, $type, $date, $grade_float);
+if ($stmt = $con->prepare('INSERT INTO ' . config_table_name_grades . ' (user_id, class, note, type, date, grade, year) VALUES (?, ?, ?, ?, ?, ?, ?)')) {
+    $stmt->bind_param('sisssss', $_SESSION["user_id"], $class_id, $note, $type, $date, $grade_float, $_SESSION["setting_years"]);
     $stmt->execute();
     $stmt->close();
 
