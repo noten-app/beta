@@ -222,3 +222,13 @@ Add year
     color: var(--background-color);
     margin-bottom: 0.5rem;
 }
+
+#delete_button {
+    background-color: #f8312f;
+    padding: 1rem;
+    border-radius: 1rem;
+    cursor: pointer;
+    text-align: center;
+    color: var(--background-color);
+    margin-bottom: 0.5rem;
+}

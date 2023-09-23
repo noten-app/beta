@@ -180,10 +180,18 @@ $con->close();
             <h1 class="overlay-title">School-Years</h1>
             <div class="dropdown_container container_item">
                 <div class="dropdown_container-name" onclick="location.assign('add-year')">
-                    Add School-Year
+                    Add Year
                 </div>
                 <div class="dropdown_container-dropdown_icon">
                     <i class="fa-solid fa-calendar-plus"></i>
+                </div>
+            </div>
+            <div class="dropdown_container container_item">
+                <div class="dropdown_container-name" onclick="location.assign('manage-year')">
+                    Manage Years
+                </div>
+                <div class="dropdown_container-dropdown_icon">
+                    <i class="fas fa-calendar-day"></i>
                 </div>
             </div>
             <?php
