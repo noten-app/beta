@@ -246,6 +246,7 @@ if ($stmt = $con->prepare("SELECT average FROM " . $config["db"]["tables"]["clas
             if (task.offsetWidth < task.querySelector("span").scrollWidth) task.querySelector("span").classList.add("scroll")
         });
     </script>
+    <?php if ($config["tracking"]["matomo"]["on"]) echo ($config["tracking"]["matomo"]["code"]); ?>
 </body>
 
 </html>

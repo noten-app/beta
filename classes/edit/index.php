@@ -181,6 +181,7 @@ $con->close();
     <script src="./view-cycler.js"></script>
     <script src="./modify-class.js"></script>
     <script src="./delete-class.js"></script>
+    <?php if ($config["tracking"]["matomo"]["on"]) echo ($config["tracking"]["matomo"]["code"]); ?>
 </body>
 
 </html>

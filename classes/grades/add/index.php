@@ -172,6 +172,7 @@ $con->close();
     else echo '<script src="./choose-grade.js"></script>';
     ?>
     <script src="./add-grade.js"></script>
+    <?php if ($config["tracking"]["matomo"]["on"]) echo ($config["tracking"]["matomo"]["code"]); ?>
 </body>
 
 </html>

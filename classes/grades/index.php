@@ -246,6 +246,7 @@ $con->close();
     <script src="https://assets.noten-app.de/js/themes/themes.js"></script>
     <script src="/res/js/point-system.js"></script>
     <script src="./view-cycler.js"></script>
+    <?php if ($config["tracking"]["matomo"]["on"]) echo ($config["tracking"]["matomo"]["code"]); ?>
 </body>
 
 </html>

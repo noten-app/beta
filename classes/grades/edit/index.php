@@ -279,6 +279,7 @@ $con->close();
         // exit(substr(strval($grade), 1));
         ?>
     </script>
+    <?php if ($config["tracking"]["matomo"]["on"]) echo ($config["tracking"]["matomo"]["code"]); ?>
 </body>
 
 </html>

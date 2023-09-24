@@ -120,6 +120,7 @@ $con->close();
     <script src="../overlays.js"></script>
     <script src="../school_years.js"></script>
     <script src="script.js"></script>
+    <?php if ($config["tracking"]["matomo"]["on"]) echo ($config["tracking"]["matomo"]["code"]); ?>
 </body>
 
 </html>
