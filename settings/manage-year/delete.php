@@ -11,29 +11,29 @@ require($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 
 // DB Connection
 $con = mysqli_connect(
-    config_db_host,
-    config_db_user,
-    config_db_password,
-    config_db_name
+    $config["db"]["credentials"]["host"],
+    $config["db"]["credentials"]["user"],
+    $config["db"]["credentials"]["password"],
+    $config["db"]["credentials"]["name"]
 );
 if (mysqli_connect_errno()) exit("Error with the Database");
 
 // Delete all grades
-if ($stmt = $con->prepare("DELETE FROM " . config_table_name_grades . " WHERE user_id = ? AND year = ?")) {
+if ($stmt = $con->prepare("DELETE FROM " . $config["db"]["tables"]["grades"] . " WHERE user_id = ? AND year = ?")) {
     $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_years"]);
     $stmt->execute();
     $stmt->close();
 }
 
 // Delete all classes
-if ($stmt = $con->prepare("DELETE FROM " . config_table_name_classes . " WHERE user_id = ? AND year = ?")) {
+if ($stmt = $con->prepare("DELETE FROM " . $config["db"]["tables"]["classes"] . " WHERE user_id = ? AND year = ?")) {
     $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_years"]);
     $stmt->execute();
     $stmt->close();
 }
 
 // Delete homework
-if ($stmt = $con->prepare("DELETE FROM " . config_table_name_homework . " WHERE user_id = ? AND year = ?")) {
+if ($stmt = $con->prepare("DELETE FROM " . $config["db"]["tables"]["homework"] . " WHERE user_id = ? AND year = ?")) {
     $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_years"]);
     $stmt->execute();
     $stmt->close();

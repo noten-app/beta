@@ -20,15 +20,15 @@ require($_SERVER["DOCUMENT_ROOT"] . "/res/php/point-system.php");
 
 // DB Connection
 $con = mysqli_connect(
-    config_db_host,
-    config_db_user,
-    config_db_password,
-    config_db_name
+    $config["db"]["credentials"]["host"],
+    $config["db"]["credentials"]["user"],
+    $config["db"]["credentials"]["password"],
+    $config["db"]["credentials"]["name"]
 );
 if (mysqli_connect_errno()) exit("Error with the Database");
 
 // Get grade
-if ($stmt = $con->prepare('SELECT user_id, class, note, type, date, grade FROM ' . config_table_name_grades . ' WHERE id = ?')) {
+if ($stmt = $con->prepare('SELECT user_id, class, note, type, date, grade FROM ' . $config["db"]["tables"]["grades"] . ' WHERE id = ?')) {
     $stmt->bind_param('s', $grade_id);
     $stmt->execute();
     $stmt->store_result();

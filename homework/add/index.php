@@ -11,16 +11,16 @@ require($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 
 // DB Connection
 $con = mysqli_connect(
-    config_db_host,
-    config_db_user,
-    config_db_password,
-    config_db_name
+    $config["db"]["credentials"]["host"],
+    $config["db"]["credentials"]["user"],
+    $config["db"]["credentials"]["password"],
+    $config["db"]["credentials"]["name"]
 );
 if (mysqli_connect_errno()) exit("Error with the Database");
 
 // Get all classes
 $classlist = array();
-if ($stmt = $con->prepare("SELECT name, color, id, last_used, average FROM " . config_table_name_classes . " WHERE user_id = ?")) {
+if ($stmt = $con->prepare("SELECT name, color, id, last_used, average FROM " . $config["db"]["tables"]["classes"] . " WHERE user_id = ?")) {
     $stmt->bind_param("s", $_SESSION["user_id"]);
     $stmt->execute();
     $stmt->bind_result($class_name, $class_color, $class_id, $class_last_used, $class_grade_average);

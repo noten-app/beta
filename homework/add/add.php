@@ -11,10 +11,10 @@ require($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 
 // DB Connection
 $con = mysqli_connect(
-    config_db_host,
-    config_db_user,
-    config_db_password,
-    config_db_name
+    $config["db"]["credentials"]["host"],
+    $config["db"]["credentials"]["user"],
+    $config["db"]["credentials"]["password"],
+    $config["db"]["credentials"]["name"]
 );
 if (mysqli_connect_errno()) die("Error with the Database");
 
@@ -39,7 +39,7 @@ $task = htmlentities($task);
 $date_given = date("Y-m-d");
 
 // Add class to DB and get inserted ID
-if ($stmt = $con->prepare('INSERT INTO ' . config_table_name_homework . ' (user_id, class, given, deadline, text, type, year) VALUES (?, ?, ?, ?, ?, ?, ?)')) {
+if ($stmt = $con->prepare('INSERT INTO ' . $config["db"]["tables"]["homework"] . ' (user_id, class, given, deadline, text, type, year) VALUES (?, ?, ?, ?, ?, ?, ?)')) {
     $stmt->bind_param('sisssss', $_SESSION["user_id"], $class, $date_given, $date_due, $task, $type, $_SESSION["setting_years"]);
     $stmt->execute();
     $stmt->close();

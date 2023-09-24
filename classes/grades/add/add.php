@@ -11,10 +11,10 @@ require($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 
 // DB Connection
 $con = mysqli_connect(
-    config_db_host,
-    config_db_user,
-    config_db_password,
-    config_db_name
+    $config["db"]["credentials"]["host"],
+    $config["db"]["credentials"]["user"],
+    $config["db"]["credentials"]["password"],
+    $config["db"]["credentials"]["name"]
 );
 if (mysqli_connect_errno()) die("Error with the Database");
 
@@ -33,7 +33,7 @@ if (!isset($type)) die("missing-type");
 if (!isset($class_id)) die("missing-class");
 
 // Check if class is owned by user
-if ($stmt = $con->prepare('SELECT user_id FROM ' . config_table_name_classes . ' WHERE id = ?')) {
+if ($stmt = $con->prepare('SELECT user_id FROM ' . $config["db"]["tables"]["classes"] . ' WHERE id = ?')) {
     $stmt->bind_param('i', $class_id);
     $stmt->execute();
     $stmt->store_result();
@@ -67,13 +67,13 @@ if (!preg_match("/^[kmst]$/", $type)) die("invalid-type");
 if (strlen($note) > 25) die("invalid-note");
 
 // Add grade
-if ($stmt = $con->prepare('INSERT INTO ' . config_table_name_grades . ' (user_id, class, note, type, date, grade, year) VALUES (?, ?, ?, ?, ?, ?, ?)')) {
+if ($stmt = $con->prepare('INSERT INTO ' . $config["db"]["tables"]["grades"] . ' (user_id, class, note, type, date, grade, year) VALUES (?, ?, ?, ?, ?, ?, ?)')) {
     $stmt->bind_param('sisssss', $_SESSION["user_id"], $class_id, $note, $type, $date, $grade_float, $_SESSION["setting_years"]);
     $stmt->execute();
     $stmt->close();
 
     // Change class last used
-    if ($stmt = $con->prepare('UPDATE ' . config_table_name_classes . ' SET last_used = ? WHERE id = ?')) {
+    if ($stmt = $con->prepare('UPDATE ' . $config["db"]["tables"]["classes"] . ' SET last_used = ? WHERE id = ?')) {
         $stmt->bind_param('si', $date, $class_id);
         $stmt->execute();
         $stmt->close();

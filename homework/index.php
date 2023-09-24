@@ -11,10 +11,10 @@ require($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 
 // DB Connection
 $con = mysqli_connect(
-    config_db_host,
-    config_db_user,
-    config_db_password,
-    config_db_name
+    $config["db"]["credentials"]["host"],
+    $config["db"]["credentials"]["user"],
+    $config["db"]["credentials"]["password"],
+    $config["db"]["credentials"]["name"]
 );
 if (mysqli_connect_errno()) exit("Error with the Database");
 
@@ -26,7 +26,7 @@ if (isset($_GET["showall"]) && $_GET["showall"] == 1) {
 }
 
 // Get all tasks
-if ($stmt = $con->prepare("SELECT * FROM " . config_table_name_homework . " WHERE user_id = ? AND year = ?" . $showall_text)) {
+if ($stmt = $con->prepare("SELECT * FROM " . $config["db"]["tables"]["homework"] . " WHERE user_id = ? AND year = ?" . $showall_text)) {
     $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_years"]);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -34,7 +34,7 @@ if ($stmt = $con->prepare("SELECT * FROM " . config_table_name_homework . " WHER
 }
 
 // Get all classes
-if ($stmt = $con->prepare("SELECT * FROM " . config_table_name_classes . " WHERE user_id = ? and year = ?")) {
+if ($stmt = $con->prepare("SELECT * FROM " . $config["db"]["tables"]["classes"] . " WHERE user_id = ? and year = ?")) {
     $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_years"]);
     $stmt->execute();
     $result = $stmt->get_result();

@@ -11,10 +11,10 @@ require($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 
 // DB Connection
 $con = mysqli_connect(
-    config_db_host,
-    config_db_user,
-    config_db_password,
-    config_db_name
+    $config["db"]["credentials"]["host"],
+    $config["db"]["credentials"]["user"],
+    $config["db"]["credentials"]["password"],
+    $config["db"]["credentials"]["name"]
 );
 if (mysqli_connect_errno()) die("Error with the Database");
 
@@ -39,7 +39,7 @@ if (!isset($classColor)) die("missing-classcolor");
 if (!isset($classID)) die("missing-classid");
 
 // Check if class exists and belongs to user
-if ($stmt = $con->prepare('SELECT user_id FROM ' . config_table_name_classes . ' WHERE id = ?')) {
+if ($stmt = $con->prepare('SELECT user_id FROM ' . $config["db"]["tables"]["classes"] . ' WHERE id = ?')) {
     $stmt->bind_param('i', $classID);
     $stmt->execute();
     $stmt->store_result();
@@ -57,10 +57,10 @@ else $gradingTypeT = strval($gradingTypeT);
 $classColor = str_replace("#", "", $classColor);
 
 // Make an sql statement to update the class
-// exit("UPDATE ".config_table_name_classes." SET name = '".$className."', color = '".$classColor."', grade_k = ".$gradingTypeK.", grade_m = ".$gradingTypeM.", grade_t = '".$gradingTypeT."', grade_s = ".$gradingTypeS." WHERE id = ".$classID);
+// exit("UPDATE ".$config["db"]["tables"]["classes"]." SET name = '".$className."', color = '".$classColor."', grade_k = ".$gradingTypeK.", grade_m = ".$gradingTypeM.", grade_t = '".$gradingTypeT."', grade_s = ".$gradingTypeS." WHERE id = ".$classID);
 
 // Update class in DB
-if ($stmt = $con->prepare('UPDATE ' . config_table_name_classes . ' SET name = ?, color = ?, grade_k = ?, grade_m = ?, grade_t = ?, grade_s = ? WHERE id = ?')) {
+if ($stmt = $con->prepare('UPDATE ' . $config["db"]["tables"]["classes"] . ' SET name = ?, color = ?, grade_k = ?, grade_m = ?, grade_t = ?, grade_s = ? WHERE id = ?')) {
     $stmt->bind_param('ssiisii', $className, $classColor, $gradingTypeK, $gradingTypeM, $gradingTypeT, $gradingTypeS, $classID);
     $stmt->execute();
     $stmt->close();
