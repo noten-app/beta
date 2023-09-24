@@ -119,6 +119,7 @@ $con->close();
         </div>
     </main>
     <script src="https://assets.noten-app.de/js/themes/themes.js"></script>
+    <?php if ($config["tracking"]["matomo"]["on"]) echo ($config["tracking"]["matomo"]["code"]); ?>
 </body>
 
 </html>
