@@ -14,16 +14,16 @@ require($_SERVER["DOCUMENT_ROOT"] . "/res/php/point-system.php");
 
 // DB Connection
 $con = mysqli_connect(
-    config_db_host,
-    config_db_user,
-    config_db_password,
-    config_db_name
+    $config["db"]["credentials"]["host"],
+    $config["db"]["credentials"]["user"],
+    $config["db"]["credentials"]["password"],
+    $config["db"]["credentials"]["name"]
 );
 if (mysqli_connect_errno()) exit("Error with the Database");
 
 // Count homework status
 // Count for status 0,1 or 2 seperately
-if ($stmt = $con->prepare("SELECT status FROM " . config_table_name_homework . " WHERE user_id = ? AND year = ?")) {
+if ($stmt = $con->prepare("SELECT status FROM " . $config["db"]["tables"]["homework"] . " WHERE user_id = ? AND year = ?")) {
     $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_years"]);
     $stmt->execute();
     $stmt->bind_result($status);
@@ -39,7 +39,7 @@ if (!isset($status_count[1])) $status_count[1] = 0;
 if (!isset($status_count[2])) $status_count[2] = 0;
 
 // Get homework due tomorrow or earlier
-if ($stmt = $con->prepare("SELECT * FROM " . config_table_name_homework . " WHERE user_id = ? AND deadline <= ? AND status = 0 AND year = ?")) {
+if ($stmt = $con->prepare("SELECT * FROM " . $config["db"]["tables"]["homework"] . " WHERE user_id = ? AND deadline <= ? AND status = 0 AND year = ?")) {
     // If day is sat or sun (and friday - AFTER 15 o clock), set to monday
     if (date("N") == 5 && date("H") >= 15) $tomorrow = date("Y-m-d", strtotime("+3 day"));
     else if (date("N") == 6) $tomorrow = date("Y-m-d", strtotime("+2 day"));
@@ -52,14 +52,14 @@ if ($stmt = $con->prepare("SELECT * FROM " . config_table_name_homework . " WHER
 }
 
 // Get all classes
-if ($stmt = $con->prepare("SELECT * FROM " . config_table_name_classes . " WHERE user_id = ? AND year = ?")) {
+if ($stmt = $con->prepare("SELECT * FROM " . $config["db"]["tables"]["classes"] . " WHERE user_id = ? AND year = ?")) {
     $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_years"]);
     $stmt->execute();
     $result = $stmt->get_result();
     $classes = $result->fetch_all(MYSQLI_ASSOC);
 }
 // Count grades
-if ($stmt = $con->prepare("SELECT COUNT(*) FROM " . config_table_name_grades . " WHERE user_id = ? AND year = ?")) {
+if ($stmt = $con->prepare("SELECT COUNT(*) FROM " . $config["db"]["tables"]["grades"] . " WHERE user_id = ? AND year = ?")) {
     $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_years"]);
     $stmt->execute();
     $stmt->bind_result($num_of_grades);
@@ -68,7 +68,7 @@ if ($stmt = $con->prepare("SELECT COUNT(*) FROM " . config_table_name_grades . "
 }
 
 // Get last inserted grade
-if ($stmt = $con->prepare("SELECT grade FROM " . config_table_name_grades . " WHERE user_id = ? AND year = ? ORDER BY id DESC LIMIT 1")) {
+if ($stmt = $con->prepare("SELECT grade FROM " . $config["db"]["tables"]["grades"] . " WHERE user_id = ? AND year = ? ORDER BY id DESC LIMIT 1")) {
     $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_years"]);
     $stmt->execute();
     $stmt->bind_result($last_grade);
@@ -77,7 +77,7 @@ if ($stmt = $con->prepare("SELECT grade FROM " . config_table_name_grades . " WH
 }
 
 // Calculate average
-if ($stmt = $con->prepare("SELECT average FROM " . config_table_name_classes . " WHERE user_id = ? AND year = ?")) {
+if ($stmt = $con->prepare("SELECT average FROM " . $config["db"]["tables"]["classes"] . " WHERE user_id = ? AND year = ?")) {
     $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_years"]);
     $stmt->execute();
     $stmt->bind_result($average);

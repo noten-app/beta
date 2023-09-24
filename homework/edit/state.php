@@ -11,10 +11,10 @@ require($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 
 // DB Connection
 $con = mysqli_connect(
-    config_db_host,
-    config_db_user,
-    config_db_password,
-    config_db_name
+    $config["db"]["credentials"]["host"],
+    $config["db"]["credentials"]["user"],
+    $config["db"]["credentials"]["password"],
+    $config["db"]["credentials"]["name"]
 );
 if (mysqli_connect_errno()) die("Error with the Database");
 
@@ -27,7 +27,7 @@ if (!isset($status) || strlen($status) == 0) die("missing-check-state");
 if (!isset($entry_id)) die("missing-entry-id");
 
 // Update entry
-if ($stmt = $con->prepare('UPDATE ' . config_table_name_homework . ' SET status = ? WHERE entry_id = ? AND user_id = ?')) {
+if ($stmt = $con->prepare('UPDATE ' . $config["db"]["tables"]["homework"] . ' SET status = ? WHERE entry_id = ? AND user_id = ?')) {
     $stmt->bind_param("iis", $status, $entry_id, $_SESSION["user_id"]);
     $stmt->execute();
     // Check if entry was updated

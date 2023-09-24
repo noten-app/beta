@@ -10,10 +10,10 @@ require($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 
 // DB Connection
 $con = mysqli_connect(
-	config_db_host,
-	config_db_user,
-	config_db_password,
-	config_db_name
+	$config["db"]["credentials"]["host"],
+	$config["db"]["credentials"]["user"],
+	$config["db"]["credentials"]["password"],
+	$config["db"]["credentials"]["name"]
 );
 if (mysqli_connect_errno()) die("Error with the Database");
 

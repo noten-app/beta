@@ -11,10 +11,10 @@ require($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 
 // DB Connection
 $con = mysqli_connect(
-    config_db_host,
-    config_db_user,
-    config_db_password,
-    config_db_name
+    $config["db"]["credentials"]["host"],
+    $config["db"]["credentials"]["user"],
+    $config["db"]["credentials"]["password"],
+    $config["db"]["credentials"]["name"]
 );
 if (mysqli_connect_errno()) exit("Error with the Database");
 
@@ -68,13 +68,13 @@ if (isset($_POST["transfer_classes"])) {
             for ($i = 0; $i < 8; $i++) {
                 $class_id .= $chars[rand(0, strlen($chars) - 1)];
             }
-            if ($stmt = $con->prepare("SELECT id FROM " . config_table_name_classes . " WHERE id = ?")) {
+            if ($stmt = $con->prepare("SELECT id FROM " . $config["db"]["tables"]["classes"] . " WHERE id = ?")) {
                 $stmt->bind_param("s", $class_id);
                 $stmt->execute();
                 if ($stmt->get_result()->num_rows == 0) {
                     $stmt->close();
                     $regenerate = false;
-                    if ($stmt = $con->prepare("INSERT INTO " . config_table_name_classes . " (id, name, color, user_id, grade_k, grade_m, grade_t, grade_s, year) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
+                    if ($stmt = $con->prepare("INSERT INTO " . $config["db"]["tables"]["classes"] . " (id, name, color, user_id, grade_k, grade_m, grade_t, grade_s, year) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
                         $stmt->bind_param("sssssssss", $class_id, $class["name"], $class["color"], $_SESSION["user_id"], $class["grade_k"], $class["grade_m"], $class["grade_t"], $class["grade_s"], $year_id);
                         $stmt->execute();
                         $stmt->close();

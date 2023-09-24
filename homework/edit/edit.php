@@ -11,10 +11,10 @@ require($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 
 // DB Connection
 $con = mysqli_connect(
-    config_db_host,
-    config_db_user,
-    config_db_password,
-    config_db_name
+    $config["db"]["credentials"]["host"],
+    $config["db"]["credentials"]["user"],
+    $config["db"]["credentials"]["password"],
+    $config["db"]["credentials"]["name"]
 );
 if (mysqli_connect_errno()) die("Error with the Database");
 
@@ -40,7 +40,7 @@ $task = htmlentities($task);
 $date_given = date("Y-m-d");
 
 // Update task in DB
-if ($stmt = $con->prepare('UPDATE ' . config_table_name_homework . ' SET class = ?, given = ?, deadline = ?, text = ?, type = ? WHERE entry_id = ? AND user_id = ?')) {
+if ($stmt = $con->prepare('UPDATE ' . $config["db"]["tables"]["homework"] . ' SET class = ?, given = ?, deadline = ?, text = ?, type = ? WHERE entry_id = ? AND user_id = ?')) {
     $stmt->bind_param('sssssis', $class, $date_given, $date_due, $task, $type, $task_id, $_SESSION["user_id"]);
     $stmt->execute();
     $stmt->close();

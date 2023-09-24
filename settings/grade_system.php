@@ -11,10 +11,10 @@ require($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 
 // DB Connection
 $con = mysqli_connect(
-    config_db_host,
-    config_db_user,
-    config_db_password,
-    config_db_name
+    $config["db"]["credentials"]["host"],
+    $config["db"]["credentials"]["user"],
+    $config["db"]["credentials"]["password"],
+    $config["db"]["credentials"]["name"]
 );
 if (mysqli_connect_errno()) die("Error with the Database");
 
@@ -25,7 +25,7 @@ $system = $_POST["system"];
 if ($system != "noten" && $system != "punkte") $system = "noten";
 
 // Update system in DB
-if ($stmt = $con->prepare('UPDATE ' . config_table_name_accounts . ' SET gradesystem = ? WHERE id = ?')) {
+if ($stmt = $con->prepare('UPDATE ' . $config["db"]["tables"]["accounts"] . ' SET gradesystem = ? WHERE id = ?')) {
     $stmt->bind_param('ss', $system, $_SESSION["user_id"]);
     $stmt->execute();
     $stmt->close();
@@ -36,7 +36,7 @@ $_SESSION["setting_system"] = $system;
 
 // Check if user has grades their floats end in .5
 if ($system == "punkte") {
-    if ($stmt = $con->prepare('SELECT grade FROM ' . config_table_name_grades . ' WHERE user_id = ?')) {
+    if ($stmt = $con->prepare('SELECT grade FROM ' . $config["db"]["tables"]["grades"] . ' WHERE user_id = ?')) {
         $stmt->bind_param('s', $_SESSION["user_id"]);
         $stmt->execute();
         $result = $stmt->get_result();
