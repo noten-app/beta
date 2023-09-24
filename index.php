@@ -158,7 +158,7 @@ if ($stmt = $con->prepare("SELECT average FROM " . config_table_name_classes . "
             <div class="grade_average-value grades-value noborder">
                 <?php
                 if (systemRun("punkte")) echo (number_format(calcToPoints(false, $average), $_SESSION["setting_rounding"], '.', ''));
-                else echo number_format($average, $_SESSION["setting_rounding"], '.', '');
+                else if (isset($_SESSION["setting_rounding"])) echo number_format($average, $_SESSION["setting_rounding"], '.', '');
                 ?>
             </div>
             <div class="grade_average-label grades-label noborder">Total Average</div>
