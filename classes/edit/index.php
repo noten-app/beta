@@ -7,13 +7,13 @@ $class_id = htmlspecialchars($_GET["class"]);
 if (!preg_match("/^[a-z0-9]*$/", $class_id)) header("Location: /classes");
 
 // Check login state
-require("../../res/php/session.php");
+require($_SERVER["DOCUMENT_ROOT"] . "/res/php/session.php");
 start_session();
-require("../../res/php/checkLogin.php");
+require($_SERVER["DOCUMENT_ROOT"] . "/res/php/checkLogin.php");
 if (!checkLogin()) header("Location: https://account.noten-app.de");
 
 // Get config
-require("../../config.php");
+require($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 
 // DB Connection
 $con = mysqli_connect(
