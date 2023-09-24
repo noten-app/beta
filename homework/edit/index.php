@@ -1,9 +1,9 @@
 <?php
 
 // Check login state
-require("../../res/php/session.php");
+require($_SERVER["DOCUMENT_ROOT"] . "/res/php/session.php");
 start_session();
-require("../../res/php/checkLogin.php");
+require($_SERVER["DOCUMENT_ROOT"] . "/res/php/checkLogin.php");
 if (!checkLogin()) header("Location: https://account.noten-app.de");
 
 // Check if task id is set
@@ -14,7 +14,7 @@ if (!preg_match("/^[a-z0-9]*$/", $task_id)) header("Location: /classes");
 
 
 // Get config
-require("../../config.php");
+require($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 
 // DB Connection
 $con = mysqli_connect(
