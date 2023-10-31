@@ -1,11 +1,11 @@
-const class_selector = document.getElementById('class-selector');
+const subject_selector = document.getElementById('subject-selector');
 const task_input = document.getElementById('task-input');
 const date_input_input = document.getElementById('date_input-input');
-const class_edit_button = document.getElementById('task_save');
+const subject_edit_button = document.getElementById('task_save');
 const task_mark_undone_button = document.getElementById('task_mark_undone');
 const task_delete_button = document.getElementById('task_delete');
 
-class_edit_button.addEventListener('click', () => {
+subject_edit_button.addEventListener('click', () => {
     // check if task is empty
     if (task_input.value == "") {
         task_input.style.border = "1px solid red";
@@ -17,7 +17,7 @@ class_edit_button.addEventListener('click', () => {
         url: './edit.php',
         type: 'POST',
         data: {
-            class: class_selector.value,
+            subject: subject_selector.value,
             type: type,
             task_id: task_id,
             date_due: date_input_input.value,
@@ -48,7 +48,7 @@ task_mark_undone_button.addEventListener('click', () => {
                 url: './edit.php',
                 type: 'POST',
                 data: {
-                    class: class_selector.value,
+                    subject: subject_selector.value,
                     type: type,
                     task_id: task_id,
                     date_due: date_input_input.value,

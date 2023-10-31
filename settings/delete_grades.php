@@ -26,7 +26,7 @@ if ($stmt = $con->prepare("DELETE FROM " . $config["db"]["tables"]["grades"] . "
 }
 
 // Set all averages to 0
-if ($stmt = $con->prepare("UPDATE " . $config["db"]["tables"]["classes"] . " SET average = 0 WHERE user_id = ?")) {
+if ($stmt = $con->prepare("UPDATE " . $config["db"]["tables"]["subjects"] . " SET average = 0 WHERE user_id = ?")) {
     $stmt->bind_param("s", $_SESSION["user_id"]);
     $stmt->execute();
     $stmt->close();

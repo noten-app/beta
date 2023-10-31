@@ -18,19 +18,19 @@ $con = mysqli_connect(
 );
 if (mysqli_connect_errno()) exit("Error with the Database");
 
-// Get all classes
-$classlist = array();
-if ($stmt = $con->prepare("SELECT name, color, id, last_used, average FROM " . $config["db"]["tables"]["classes"] . " WHERE user_id = ? AND year = ? ORDER BY average ASC")) {
+// Get all subjects
+$subjectlist = array();
+if ($stmt = $con->prepare("SELECT name, color, id, last_used, average FROM " . $config["db"]["tables"]["subjects"] . " WHERE user_id = ? AND year = ? ORDER BY average ASC")) {
     $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_years"]);
     $stmt->execute();
-    $stmt->bind_result($class_name, $class_color, $class_id, $class_last_used, $class_grade_average);
+    $stmt->bind_result($subject_name, $subject_color, $subject_id, $subject_last_used, $subject_grade_average);
     while ($stmt->fetch()) {
-        $classlist[] = array(
-            "name" => $class_name,
-            "color" => $class_color,
-            "id" => $class_id,
-            "last_used" => $class_last_used,
-            "average" => $class_grade_average
+        $subjectlist[] = array(
+            "name" => $subject_name,
+            "color" => $subject_color,
+            "id" => $subject_id,
+            "last_used" => $subject_last_used,
+            "average" => $subject_grade_average
         );
     }
     $stmt->close();
@@ -62,11 +62,11 @@ $pdf->Ln(20);
 // - - - - - - - //
 //    Grades     //
 // - - - - - - - //
-foreach ($classlist as $class) {
-    // Class-Header
+foreach ($subjectlist as $subject) {
+    // Subject-Header
     $pdf->SetFont('Arial', 'B', 15);
-    if ($class["average"] != 0) $title = $class["name"] . ' - ' . iconv('utf-8', 'cp1252', 'Ø ') . number_format($class["average"], $_SESSION["setting_rounding"], '.', '');
-    else $title = $class["name"];
+    if ($subject["average"] != 0) $title = $subject["name"] . ' - ' . iconv('utf-8', 'cp1252', 'Ø ') . number_format($subject["average"], $_SESSION["setting_rounding"], '.', '');
+    else $title = $subject["name"];
     $pdf->Cell(0, 10, $title, 0, 0, 'L');
     $pdf->Ln(7.5);
     $pdf->SetTextColor(0, 0, 0);
@@ -79,8 +79,8 @@ foreach ($classlist as $class) {
     $pdf->Ln();
     // Get grades
     $grades = array();
-    if ($stmt = $con->prepare('SELECT id, user_id, class, note, type, date, grade FROM grades WHERE class = ?')) {
-        $stmt->bind_param('s', $class["id"]);
+    if ($stmt = $con->prepare('SELECT id, user_id, subject, note, type, date, grade FROM grades WHERE subject = ?')) {
+        $stmt->bind_param('s', $subject["id"]);
         $stmt->execute();
         $result = $stmt->get_result();
         foreach ($result as $row) {

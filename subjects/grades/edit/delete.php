@@ -40,9 +40,9 @@ if ($stmt = $con->prepare('DELETE FROM ' . $config["db"]["tables"]["grades"] . '
     $stmt->execute();
     $stmt->close();
 
-    // Change class last used
-    if ($stmt = $con->prepare('UPDATE ' . $config["db"]["tables"]["classes"] . ' SET last_used = ? WHERE id = ?')) {
-        $stmt->bind_param('si', $date, $class_id);
+    // Change subject last used
+    if ($stmt = $con->prepare('UPDATE ' . $config["db"]["tables"]["subjects"] . ' SET last_used = ? WHERE id = ?')) {
+        $stmt->bind_param('si', $date, $subject_id);
         $stmt->execute();
         $stmt->close();
         exit("success");

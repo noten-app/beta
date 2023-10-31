@@ -27,19 +27,19 @@ if ($sorting == "average") $sorting_appendix = " ORDER BY average ASC";
 else if ($sorting == "alphabet") $sorting_appendix = " ORDER BY name ASC";
 else if ($sorting == "lastuse") $sorting_appendix = " ORDER BY last_used DESC";
 
-// Get all classes
-$classlist = array();
-if ($stmt = $con->prepare("SELECT name, color, id, last_used, average FROM " . $config["db"]["tables"]["classes"] . " WHERE user_id = ? AND year = ?" . $sorting_appendix)) {
+// Get all subjects
+$subjectlist = array();
+if ($stmt = $con->prepare("SELECT name, color, id, last_used, average FROM " . $config["db"]["tables"]["subjects"] . " WHERE user_id = ? AND year = ?" . $sorting_appendix)) {
     $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_years"]);
     $stmt->execute();
-    $stmt->bind_result($class_name, $class_color, $class_id, $class_last_used, $class_grade_average);
+    $stmt->bind_result($subject_name, $subject_color, $subject_id, $subject_last_used, $subject_grade_average);
     while ($stmt->fetch()) {
-        $classlist[] = array(
-            "name" => $class_name,
-            "color" => $class_color,
-            "id" => $class_id,
-            "last_used" => $class_last_used,
-            "average" => $class_grade_average
+        $subjectlist[] = array(
+            "name" => $subject_name,
+            "color" => $subject_color,
+            "id" => $subject_id,
+            "last_used" => $subject_last_used,
+            "average" => $subject_grade_average
         );
     }
     $stmt->close();
@@ -48,7 +48,7 @@ if ($stmt = $con->prepare("SELECT name, color, id, last_used, average FROM " . $
 // DB Con close
 $con->close();
 
-// var_dump($classlist);
+// var_dump($subjectlist);
 ?>
 
 <!DOCTYPE html>
@@ -58,7 +58,7 @@ $con->close();
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Classes | Noten-App</title>
+    <title>subjects | Noten-App</title>
     <link rel="stylesheet" href="/res/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="/res/fontawesome/css/solid.min.css">
     <link rel="stylesheet" href="/res/css/fonts.css">
@@ -91,31 +91,31 @@ $con->close();
                 <i class="fas fa-calendar-check"></i>
             </div>
         </a>
-        <a href="/classes/" class="nav-link nav-active">
+        <a href="/subjects/" class="nav-link nav-active">
             <div class="navbar_icon">
                 <i class="fas fa-book"></i>
             </div>
         </a>
     </nav>
     <main id="main">
-        <div class="class_list">
+        <div class="subject_list">
             <?php
-            foreach ($classlist as $class) {
-                echo '<div class="class_entry';
-                echo '" onclick="location.assign(\'./grades/?class=' . $class["id"] . '\')" style="border-color:#' . $class["color"] . '">';
-                echo '<div class="class_entry-name">' . $class["name"] . '</div>';
-                if ($class["average"] != 0) {
-                    echo '<div class="class_entry-average"> &empty; ';
-                    if (systemRun("punkte")) echo (number_format(calcToPoints(false, $class["average"]), $_SESSION["setting_rounding"], '.', ''));
-                    else echo number_format($class["average"], $_SESSION["setting_rounding"], '.', '');
+            foreach ($subjectlist as $subject) {
+                echo '<div class="subject_entry';
+                echo '" onclick="location.assign(\'./grades/?subject=' . $subject["id"] . '\')" style="border-color:#' . $subject["color"] . '">';
+                echo '<div class="subject_entry-name">' . $subject["name"] . '</div>';
+                if ($subject["average"] != 0) {
+                    echo '<div class="subject_entry-average"> &empty; ';
+                    if (systemRun("punkte")) echo (number_format(calcToPoints(false, $subject["average"]), $_SESSION["setting_rounding"], '.', ''));
+                    else echo number_format($subject["average"], $_SESSION["setting_rounding"], '.', '');
                     echo '</div>';
                 }
                 echo '</div>';
             }
             ?>
         </div>
-        <div class="class_add" onclick="location.assign('/classes/add/')">
-            <div>Create class <i class="fas fa-plus"></i></div>
+        <div class="subject_add" onclick="location.assign('/subjects/add/')">
+            <div>Create subject <i class="fas fa-plus"></i></div>
         </div>
     </main>
     <script src="https://assets.noten-app.de/js/themes/themes.js"></script>

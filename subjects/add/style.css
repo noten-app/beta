@@ -6,15 +6,15 @@ main {
     grid-template-rows: 1fr min-content;
     gap: 0px 0px;
     grid-auto-flow: row;
-    grid-template-areas: "class-main_content" "class_add";
+    grid-template-areas: "subject-main_content" "subject_add";
 }
 
 #view_toggle {
     transition: 0.5s;
 }
 
-.class-main_content {
-    grid-area: class-main_content;
+.subject-main_content {
+    grid-area: subject-main_content;
     overflow-x: hidden;
     overflow-y: auto;
 }
@@ -42,7 +42,7 @@ main {
 }
 
 
-/* Classname section */
+/* Subjectname section */
 
 .name {
     display: flex;
@@ -190,11 +190,11 @@ main {
 
 
 /* 
-Button to add classes
+Button to add subjects
 */
 
-.class_add {
-    grid-area: class_add;
+.subject_add {
+    grid-area: subject_add;
     display: grid;
     place-items: center;
     padding: 1rem;
@@ -204,6 +204,6 @@ Button to add classes
     cursor: pointer;
 }
 
-.class_add>div>i {
+.subject_add>div>i {
     color: var(--accent-color);
 }

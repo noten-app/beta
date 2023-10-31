@@ -51,12 +51,12 @@ if ($stmt = $con->prepare("SELECT * FROM " . $config["db"]["tables"]["homework"]
     $stmt->close();
 }
 
-// Get all classes
-if ($stmt = $con->prepare("SELECT * FROM " . $config["db"]["tables"]["classes"] . " WHERE user_id = ? AND year = ?")) {
+// Get all subjects
+if ($stmt = $con->prepare("SELECT * FROM " . $config["db"]["tables"]["subjects"] . " WHERE user_id = ? AND year = ?")) {
     $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_years"]);
     $stmt->execute();
     $result = $stmt->get_result();
-    $classes = $result->fetch_all(MYSQLI_ASSOC);
+    $subjects = $result->fetch_all(MYSQLI_ASSOC);
 }
 // Count grades
 if ($stmt = $con->prepare("SELECT COUNT(*) FROM " . $config["db"]["tables"]["grades"] . " WHERE user_id = ? AND year = ?")) {
@@ -77,7 +77,7 @@ if ($stmt = $con->prepare("SELECT grade FROM " . $config["db"]["tables"]["grades
 }
 
 // Calculate average
-if ($stmt = $con->prepare("SELECT average FROM " . $config["db"]["tables"]["classes"] . " WHERE user_id = ? AND year = ?")) {
+if ($stmt = $con->prepare("SELECT average FROM " . $config["db"]["tables"]["subjects"] . " WHERE user_id = ? AND year = ?")) {
     $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_years"]);
     $stmt->execute();
     $stmt->bind_result($average);
@@ -132,7 +132,7 @@ if ($stmt = $con->prepare("SELECT average FROM " . $config["db"]["tables"]["clas
                 <i class="fas fa-calendar-check"></i>
             </div>
         </a>
-        <a href="/classes/" class="nav-link">
+        <a href="/subjects/" class="nav-link">
             <div class="navbar_icon">
                 <i class="fas fa-book"></i>
             </div>
@@ -178,8 +178,8 @@ if ($stmt = $con->prepare("SELECT average FROM " . $config["db"]["tables"]["clas
                 <?php }
             if (count($homework) != 0) foreach ($homework as $hw_task) {
                 echo '<div class="homework_entry">';
-                echo '<div class="classname">';
-                foreach ($classes as $class) if ($class["id"] == $hw_task["class"]) echo $class["name"];
+                echo '<div class="subjectname">';
+                foreach ($subjects as $subject) if ($subject["id"] == $hw_task["subject"]) echo $subject["name"];
                 echo '</div><div class="task" onclick="location.assign(\'/homework/edit/?task=' . $hw_task["entry_id"] . '\')"><span>' . $hw_task["text"] . '</span></div>';
                 echo '<div class="dot" id="dot-' . $hw_task["entry_id"] . '" onclick="toggleState(\'' . $hw_task["entry_id"] . '\')">';
                 if ($hw_task["status"] == 0) echo '<i class="fa-regular fa-circle"></i></div>';

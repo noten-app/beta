@@ -19,13 +19,13 @@ $con = mysqli_connect(
 if (mysqli_connect_errno()) die("Error with the Database");
 
 // Get input
-$class = $_POST["class"];
+$subject = $_POST["subject"];
 $type = $_POST["type"];
 $date_due = $_POST["date_due"];
 $task = $_POST["task"];
 
 // Check if necessary input is given
-if (!isset($class) || strlen($class) == 0) die("missing-class");
+if (!isset($subject) || strlen($subject) == 0) die("missing-subject");
 if (!isset($type)) die("missing-type");
 if (!($type == "b" || $type == "v" || $type == "w" || $type == "o")) die("invalid-type");
 if (!isset($date_due) || strlen($date_due) == 0) die("missing-date_due");
@@ -38,9 +38,9 @@ $task = htmlentities($task);
 // Create given-date
 $date_given = date("Y-m-d");
 
-// Add class to DB and get inserted ID
-if ($stmt = $con->prepare('INSERT INTO ' . $config["db"]["tables"]["homework"] . ' (user_id, class, given, deadline, text, type, year) VALUES (?, ?, ?, ?, ?, ?, ?)')) {
-    $stmt->bind_param('sisssss', $_SESSION["user_id"], $class, $date_given, $date_due, $task, $type, $_SESSION["setting_years"]);
+// Add subject to DB and get inserted ID
+if ($stmt = $con->prepare('INSERT INTO ' . $config["db"]["tables"]["homework"] . ' (user_id, subject, given, deadline, text, type, year) VALUES (?, ?, ?, ?, ?, ?, ?)')) {
+    $stmt->bind_param('sisssss', $_SESSION["user_id"], $subject, $date_given, $date_due, $task, $type, $_SESSION["setting_years"]);
     $stmt->execute();
     $stmt->close();
     exit("success");
