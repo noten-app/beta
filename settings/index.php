@@ -259,7 +259,7 @@ $con->close();
         <span class="container-title">Sorting settings</span>
         <div class="group_container" id="grade-settings">
             <div class="container_item">
-                Classes
+                subjects
                 <div class="button_divider">
                     <div <?php if ($_SESSION["setting_sorting"] == "average") echo 'class="button_divider-button_active" '; ?>onclick="setSorting('average');">
                         Average

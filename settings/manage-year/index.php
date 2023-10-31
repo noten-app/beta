@@ -99,7 +99,7 @@ $con->close();
         <div id="submit_button">Update Year</div>
         <div id="delete_button">Delete this Year</div>
         <div class="group_container" id="info">
-            <p>Warning: When you click on delete, all classes, grades and homework entries for the current chosen year will be deleted.</p>
+            <p>Warning: When you click on delete, all subjects, grades and homework entries for the current chosen year will be deleted.</p>
         </div>
         <div id="nextyear" style="display:none;visibility:hidden;" hidden>
             <?php

@@ -5,15 +5,15 @@ main {
 }
 
 
-/* Classlist */
+/* subjectlist */
 
-.class_list {
+.subject_list {
     width: 100%;
     height: calc(100% - var(--navbar-height));
     overflow: auto;
 }
 
-.class_entry {
+.subject_entry {
     width: calc(100% - 1rem);
     margin: 0.5rem;
     display: grid;
@@ -21,19 +21,19 @@ main {
     grid-template-rows: 1fr;
     gap: 0px 0px;
     grid-auto-flow: row;
-    grid-template-areas: "class_entry-name class_entry-average";
+    grid-template-areas: "subject_entry-name subject_entry-average";
     background-color: var(--background2-color);
     padding: 1rem;
     border-radius: 0.5rem;
     border-bottom: 0.25rem solid;
 }
 
-.class_entry-name {
-    grid-area: class_entry-name;
+.subject_entry-name {
+    grid-area: subject_entry-name;
 }
 
-.class_entry-average {
-    grid-area: class_entry-average;
+.subject_entry-average {
+    grid-area: subject_entry-average;
     text-align: end;
 }
 
@@ -42,8 +42,8 @@ main {
 Button to add grades
 */
 
-.class_add {
-    grid-area: class_add;
+.subject_add {
+    grid-area: subject_add;
     display: grid;
     place-items: center;
     padding: 1rem;
@@ -53,7 +53,7 @@ Button to add grades
     cursor: pointer;
 }
 
-.class_add>div>i {
+.subject_add>div>i {
     color: var(--accent-color);
 }
 
@@ -61,6 +61,6 @@ Button to add grades
 /* Nav */
 
 nav {
-    /* Add a little border with the background color to the top of the navbar to generate contrast between the navigation and the classes */
+    /* Add a little border with the background color to the top of the navbar to generate contrast between the navigation and the subjects */
     border-top: 0.25rem solid var(--background-color)
 }

@@ -29,7 +29,7 @@ $con->close();
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create a class | Noten-App</title>
+    <title>Create a subject | Noten-App</title>
     <link rel="stylesheet" href="/res/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="/res/fontawesome/css/solid.min.css">
     <link rel="stylesheet" href="/res/css/fonts.css">
@@ -57,20 +57,20 @@ $con->close();
                 <i class="fas fa-home"></i>
             </div>
         </a>
-        <a href="/classes/" class="nav-link">
+        <a href="/subjects/" class="nav-link">
             <div class="navbar_icon">
                 <i class="fa-solid fa-arrow-left"></i>
             </div>
         </a>
     </nav>
     <main id="main">
-        <div class="class-main_content">
+        <div class="subject-main_content">
             <div class="name">
                 <div class="name-title">
-                    Classname
+                    Subject-Name
                 </div>
                 <div class="name-container">
-                    <input type="text" id="name-input" placeholder="Classname">
+                    <input type="text" id="name-input" placeholder="Subject-Name">
                 </div>
             </div>
             <div class="grading">
@@ -129,14 +129,14 @@ $con->close();
                 </div>
             </div>
         </div>
-        <div class="class_add">
-            <div>Create class <i class="fas fa-plus"></i></div>
+        <div class="subject_add">
+            <div>Create subject <i class="fas fa-plus"></i></div>
         </div>
     </main>
     <script src="https://assets.noten-app.de/js/jquery/jquery-3.6.1.min.js"></script>
     <script src="https://assets.noten-app.de/js/themes/themes.js"></script>
     <script src="./test-switch.js"></script>
-    <script src="./add-class.js"></script>
+    <script src="./add-subject.js"></script>
     <?php if ($config["tracking"]["matomo"]["on"]) echo ($config["tracking"]["matomo"]["code"]); ?>
 </body>
 

@@ -6,22 +6,22 @@ main {
     grid-template-rows: min-content 1fr min-content;
     gap: 0px 0px;
     grid-auto-flow: row;
-    grid-template-areas: "class_title class_edit" "class-main_content class-main_content" "grade_add grade_add";
+    grid-template-areas: "subject_title subject_edit" "subject-main_content subject-main_content" "grade_add grade_add";
 }
 
-.class_title {
-    grid-area: class_title;
+.subject_title {
+    grid-area: subject_title;
 }
 
-.class_edit {
-    grid-area: class_edit;
+.subject_edit {
+    grid-area: subject_edit;
     font-size: 2rem;
     padding: 1rem;
     display: flex;
     gap: 1rem;
 }
 
-.class_title h1 {
+.subject_title h1 {
     margin: 1rem;
 }
 
@@ -37,18 +37,18 @@ main {
 Main views
 */
 
-.class-main_content {
-    grid-area: class-main_content;
+.subject-main_content {
+    grid-area: subject-main_content;
     overflow: hidden;
     padding: 0.5rem;
 }
 
-.class-main_content>div>div {
+.subject-main_content>div>div {
     border-radius: 0.5rem;
     margin-bottom: 0.5rem;
 }
 
-.class-main_content>div>div:last-child {
+.subject-main_content>div>div:last-child {
     margin-bottom: 0;
 }
 
@@ -64,8 +64,8 @@ Main views
     color: var(--accent-color);
 }
 
-.class-main_content {
-    grid-area: class-main_content;
+.subject-main_content {
+    grid-area: subject-main_content;
     overflow-x: hidden;
     overflow-y: auto;
 }
@@ -93,7 +93,7 @@ Main views
 }
 
 
-/* Classname section */
+/* subjectname section */
 
 .name {
     display: flex;

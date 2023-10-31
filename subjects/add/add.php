@@ -19,37 +19,37 @@ $con = mysqli_connect(
 if (mysqli_connect_errno()) die("Error with the Database");
 
 // Get input
-$className = $_POST["className"];
+$subjectName = $_POST["subjectName"];
 $testCustom = $_POST["testCustom"];
 $gradingTypeK = $_POST["gradingTypeK"];
 $gradingTypeM = $_POST["gradingTypeM"];
 $gradingTypeT = $_POST["gradingTypeT"];
 $gradingTypeS = $_POST["gradingTypeS"];
-$classColor = $_POST["classColor"];
+$subjectColor = $_POST["subjectColor"];
 
 // Check if necessary input is given
-if (!isset($className) || strlen($className) == 0) die("missing-classname");
+if (!isset($subjectName) || strlen($subjectName) == 0) die("missing-subject-name");
 if (!isset($testCustom)) die("missing-testcustom");
 if (!isset($gradingTypeK)) die("missing-gradingtypeK");
 if (!isset($gradingTypeM)) die("missing-gradingtypeM");
 if ($testCustom == "true" && !isset($gradingTypeT)) die("missing-gradingtypeT");
 if (!isset($gradingTypeS)) die("missing-gradingtypeS");
-if (!isset($classColor)) die("missing-classcolor");
+if (!isset($subjectColor)) die("missing-subject-color");
 
 // Generate gradeTypeT if not custom
 if ($testCustom == "false") $gradingTypeT = "1exam";
 else $gradingTypeT = strval($gradingTypeT);
 
 // Remove # from color
-$classColor = str_replace("#", "", $classColor);
+$subjectColor = str_replace("#", "", $subjectColor);
 
-// Add class to DB and get inserted ID
-if ($stmt = $con->prepare('INSERT INTO ' . $config["db"]["tables"]["classes"] . ' (name, color, user_id, grade_k, grade_m, grade_t, grade_s, year) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')) {
-    $stmt->bind_param('sssiisis', $className, $classColor, $_SESSION["user_id"], $gradingTypeK, $gradingTypeM, $gradingTypeT, $gradingTypeS, $_SESSION["setting_years"]);
+// Add subject to DB and get inserted ID
+if ($stmt = $con->prepare('INSERT INTO ' . $config["db"]["tables"]["subjects"] . ' (name, color, user_id, grade_k, grade_m, grade_t, grade_s, year) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')) {
+    $stmt->bind_param('sssiisis', $subjectName, $subjectColor, $_SESSION["user_id"], $gradingTypeK, $gradingTypeM, $gradingTypeT, $gradingTypeS, $_SESSION["setting_years"]);
     $stmt->execute();
-    $classID = $stmt->insert_id;
+    $subjectID = $stmt->insert_id;
     $stmt->close();
-    exit(json_encode(array("success" => true, "classID" => $classID)));
+    exit(json_encode(array("success" => true, "subjectID" => $subjectID)));
 } else die("Error with the Database");
 
 // DB Con close

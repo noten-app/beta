@@ -18,19 +18,19 @@ $con = mysqli_connect(
 );
 if (mysqli_connect_errno()) exit("Error with the Database");
 
-// Get all classes
-$classlist = array();
-if ($stmt = $con->prepare("SELECT name, color, id, last_used, average FROM " . $config["db"]["tables"]["classes"] . " WHERE user_id = ?")) {
+// Get all subjects
+$subjectlist = array();
+if ($stmt = $con->prepare("SELECT name, color, id, last_used, average FROM " . $config["db"]["tables"]["subjects"] . " WHERE user_id = ?")) {
     $stmt->bind_param("s", $_SESSION["user_id"]);
     $stmt->execute();
-    $stmt->bind_result($class_name, $class_color, $class_id, $class_last_used, $class_grade_average);
+    $stmt->bind_result($subject_name, $subject_color, $subject_id, $subject_last_used, $subject_grade_average);
     while ($stmt->fetch()) {
-        $classlist[] = array(
-            "name" => $class_name,
-            "color" => $class_color,
-            "id" => $class_id,
-            "last_used" => $class_last_used,
-            "average" => $class_grade_average
+        $subjectlist[] = array(
+            "name" => $subject_name,
+            "color" => $subject_color,
+            "id" => $subject_id,
+            "last_used" => $subject_last_used,
+            "average" => $subject_grade_average
         );
     }
     $stmt->close();
@@ -82,16 +82,16 @@ $con->close();
         </a>
     </nav>
     <main id="main">
-        <div class="class-main_content">
-            <div class="class">
-                <div class="class-title">
-                    Class
+        <div class="subject-main_content">
+            <div class="subject">
+                <div class="subject-title">
+                    Subject
                 </div>
-                <div class="class-container">
-                    <select name="class-selector" id="class-selector">
+                <div class="subject-container">
+                    <select name="subject-selector" id="subject-selector">
                         <?php
-                        foreach ($classlist as $class) {
-                            echo '<option value="' . $class["id"] . '">' . $class["name"] . '</option>';
+                        foreach ($subjectlist as $subject) {
+                            echo '<option value="' . $subject["id"] . '">' . $subject["name"] . '</option>';
                         }
                         ?>
                     </select>
@@ -135,14 +135,14 @@ $con->close();
                 </div>
             </div>
         </div>
-        <div class="class_add">
+        <div class="subject_add">
             <div>Add task <i class="fas fa-plus"></i></div>
         </div>
     </main>
     <script src="https://assets.noten-app.de/js/jquery/jquery-3.6.1.min.js"></script>
     <script src="https://assets.noten-app.de/js/themes/themes.js"></script>
     <script src="./type-switch.js"></script>
-    <script src="./add-class.js"></script>
+    <script src="./add-subject.js"></script>
     <?php if ($config["tracking"]["matomo"]["on"]) echo ($config["tracking"]["matomo"]["code"]); ?>
 </body>
 

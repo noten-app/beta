@@ -1,10 +1,10 @@
 const submit_button = document.getElementById("submit_button");
 
 submit_button.addEventListener("click", function () {
-    let transferClasses = [];
-    for (const checkbox of document.getElementsByClassName("copy_class_checkbox")) {
+    let transfersubjects = [];
+    for (const checkbox of document.getElementsByClassName("copy_subject_checkbox")) {
         if (checkbox.checked) {
-            transferClasses.push(checkbox.value);
+            transfersubjects.push(checkbox.value);
         }
     }
     const year_name = document.getElementById("year-name-input").value;
@@ -17,7 +17,7 @@ submit_button.addEventListener("click", function () {
         url: "add-year.php",
         data: {
             year_name: year_name,
-            transfer_classes: transferClasses
+            transfer_subjects: transfersubjects
         },
         success: function (response) {
             if (response == "success") {
