@@ -33,12 +33,12 @@ if ($stmt = $con->prepare("SELECT * FROM " . $config["db"]["tables"]["homework"]
     $homework = $result->fetch_all(MYSQLI_ASSOC);
 }
 
-// Get all classes
-if ($stmt = $con->prepare("SELECT * FROM " . $config["db"]["tables"]["classes"] . " WHERE user_id = ? and year = ?")) {
+// Get all subjects
+if ($stmt = $con->prepare("SELECT * FROM " . $config["db"]["tables"]["subjects"] . " WHERE user_id = ? and year = ?")) {
     $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_years"]);
     $stmt->execute();
     $result = $stmt->get_result();
-    $classes = $result->fetch_all(MYSQLI_ASSOC);
+    $subjects = $result->fetch_all(MYSQLI_ASSOC);
 }
 
 // Order homework by deadline in arrays - arrays by date
@@ -96,7 +96,7 @@ $con->close();
                 <i class="fas fa-calendar-check"></i>
             </div>
         </a>
-        <a href="/classes/" class="nav-link">
+        <a href="/subjects/" class="nav-link">
             <div class="navbar_icon">
                 <i class="fas fa-book"></i>
             </div>
@@ -115,7 +115,7 @@ $con->close();
                 foreach ($hw_dategroup as $hw_entry) {
                     echo '<div class="homework_entry">';
                     echo '<div class="classname">';
-                    foreach ($classes as $class) if ($class["id"] == $hw_entry["class"]) echo $class["name"];
+                    foreach ($subjects as $subject) if ($subject["id"] == $hw_entry["class"]) echo $subject["name"];
                     echo '</div><div class="task" onclick="location.assign(\'./edit/?task=' . $hw_entry["entry_id"] . '\')"><span>' . $hw_entry["text"] . '</span></div>';
                     echo '<div class="dot" id="dot-' . $hw_entry["entry_id"] . '" onclick="toggleState(\'' . $hw_entry["entry_id"] . '\')">';
                     if ($hw_entry["status"] == 0) echo '<i class="fa-regular fa-circle"></i></div>';
@@ -170,6 +170,7 @@ $con->close();
             if (task.offsetWidth < task.querySelector("span").scrollWidth) task.querySelector("span").classList.add("scroll")
         });
     </script>
+    <?php if ($config["tracking"]["matomo"]["on"]) echo ($config["tracking"]["matomo"]["code"]); ?>
 </body>
 
 </html>

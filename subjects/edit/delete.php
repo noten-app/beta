@@ -18,25 +18,25 @@ $con = mysqli_connect(
 if (mysqli_connect_errno()) die("Error with the Database");
 
 // Get input
-$class_id = $_POST["id"];
-if ($class_id === "") die("no id given");
+$subject_id = $_POST["id"];
+if ($subject_id === "") die("no id given");
 
-// Delete class if belonging to user, then check if one was deleted
-if ($stmt = $con->prepare('DELETE FROM classes WHERE id = ? AND user_id = ?')) {
-	$stmt->bind_param('is', $class_id, $_SESSION["user_id"]);
+// Delete subject if belonging to user, then check if one was deleted
+if ($stmt = $con->prepare('DELETE FROM subjects WHERE id = ? AND user_id = ?')) {
+	$stmt->bind_param('is', $subject_id, $_SESSION["user_id"]);
 	$stmt->execute();
-	if ($stmt->affected_rows === 0) die("no class deleted");
+	if ($stmt->affected_rows === 0) die("no subject deleted");
 	else if ($stmt->affected_rows === 1) {
-		if ($stmt->prepare('DELETE FROM homework WHERE class = ? AND user_id = ?')) {
-			$stmt->bind_param('ss', $class_id, $_SESSION["user_id"]);
+		if ($stmt->prepare('DELETE FROM homework WHERE subject = ? AND user_id = ?')) {
+			$stmt->bind_param('ss', $subject_id, $_SESSION["user_id"]);
 			$stmt->execute();
-			if ($stmt->prepare('DELETE FROM grades WHERE class = ? AND user_id = ?')) {
-				$stmt->bind_param('ss', $class_id, $_SESSION["user_id"]);
+			if ($stmt->prepare('DELETE FROM grades WHERE subject = ? AND user_id = ?')) {
+				$stmt->bind_param('ss', $subject_id, $_SESSION["user_id"]);
 				$stmt->execute();
 				exit("success");
 			} else die("Error with the Database");
 		}
-	} else die("too many classes deleted");
+	} else die("too many subjects deleted");
 } else {
 	die("Error with the Database");
 }

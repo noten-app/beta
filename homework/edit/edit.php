@@ -19,14 +19,14 @@ $con = mysqli_connect(
 if (mysqli_connect_errno()) die("Error with the Database");
 
 // Get input
-$class = $_POST["class"];
+$subject = $_POST["subject"];
 $type = $_POST["type"];
 $date_due = $_POST["date_due"];
 $task = $_POST["task"];
 $task_id = $_POST["task_id"];
 
 // Check if necessary input is given
-if (!isset($class) || strlen($class) == 0) die("missing-class");
+if (!isset($subject) || strlen($subject) == 0) die("missing-subject");
 if (!isset($type)) die("missing-type");
 if (!($type == "b" || $type == "v" || $type == "w" || $type == "o")) die("invalid-type");
 if (!isset($date_due) || strlen($date_due) == 0) die("missing-date_due");
@@ -40,8 +40,8 @@ $task = htmlentities($task);
 $date_given = date("Y-m-d");
 
 // Update task in DB
-if ($stmt = $con->prepare('UPDATE ' . $config["db"]["tables"]["homework"] . ' SET class = ?, given = ?, deadline = ?, text = ?, type = ? WHERE entry_id = ? AND user_id = ?')) {
-    $stmt->bind_param('sssssis', $class, $date_given, $date_due, $task, $type, $task_id, $_SESSION["user_id"]);
+if ($stmt = $con->prepare('UPDATE ' . $config["db"]["tables"]["homework"] . ' SET subject = ?, given = ?, deadline = ?, text = ?, type = ? WHERE entry_id = ? AND user_id = ?')) {
+    $stmt->bind_param('sssssis', $subject, $date_given, $date_due, $task, $type, $task_id, $_SESSION["user_id"]);
     $stmt->execute();
     $stmt->close();
     exit("success");

@@ -1,6 +1,6 @@
 <?php
 
-// Check if class url-parameter is given
+// Check if subject url-parameter is given
 if (!isset($_GET["grade"])) header("Location: /grades");
 $grade_id = htmlspecialchars($_GET["grade"]);
 // Check if grade is a-z or 0-9
@@ -28,11 +28,11 @@ $con = mysqli_connect(
 if (mysqli_connect_errno()) exit("Error with the Database");
 
 // Get grade
-if ($stmt = $con->prepare('SELECT user_id, class, note, type, date, grade FROM ' . $config["db"]["tables"]["grades"] . ' WHERE id = ?')) {
+if ($stmt = $con->prepare('SELECT user_id, subject, note, type, date, grade FROM ' . $config["db"]["tables"]["grades"] . ' WHERE id = ?')) {
     $stmt->bind_param('s', $grade_id);
     $stmt->execute();
     $stmt->store_result();
-    $stmt->bind_result($user_id, $class, $note, $type, $date, $grade);
+    $stmt->bind_result($user_id, $subject, $note, $type, $date, $grade);
     $stmt->fetch();
     if ($user_id !== $_SESSION["user_id"]) exit("ERROR2");
     $stmt->close();
@@ -51,7 +51,7 @@ $con->close();
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit grade - <?= $class_name ?> | Noten-App</title>
+    <title>Edit grade - <?= $subject_name ?> | Noten-App</title>
     <link rel="stylesheet" href="/res/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="/res/fontawesome/css/solid.min.css">
     <link rel="stylesheet" href="/res/css/fonts.css">
@@ -88,10 +88,10 @@ $con->close();
         </a>
     </nav>
     <main id="main">
-        <div class="class_title">
+        <div class="subject_title">
             <h1 style="color: #<?= $class_color ?>">Editing Grade</h1>
         </div>
-        <div class="class-main_content">
+        <div class="subject-main_content">
             <div class="type">
                 <div class="type-title">
                     Type
@@ -196,7 +196,7 @@ $con->close();
                     break;
             }
         } else {
-            // switch (calcToPoints(false, $class["average"])) {
+            // switch (calcToPoints(false, $subject["average"])) {
             //     case 15:
             //         echo 'openModifiers(15);
             //     modify(0);';
@@ -279,6 +279,7 @@ $con->close();
         // exit(substr(strval($grade), 1));
         ?>
     </script>
+    <?php if ($config["tracking"]["matomo"]["on"]) echo ($config["tracking"]["matomo"]["code"]); ?>
 </body>
 
 </html>

@@ -30,12 +30,12 @@ if ($stmt = $con->prepare("SELECT id, name FROM " . config_table_name_school_yea
     $stmt->close();
 }
 
-// Get classes
-if ($stmt = $con->prepare("SELECT * FROM " . $config["db"]["tables"]["classes"] . " WHERE user_id = ? AND year = ?")) {
+// Get subjects
+if ($stmt = $con->prepare("SELECT * FROM " . $config["db"]["tables"]["subjects"] . " WHERE user_id = ? AND year = ?")) {
     $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_years"]);
     $stmt->execute();
     $result = $stmt->get_result();
-    $classes = $result->fetch_all(MYSQLI_ASSOC);
+    $subjects = $result->fetch_all(MYSQLI_ASSOC);
 }
 
 // DB Con close
@@ -100,8 +100,8 @@ $con->close();
         </div>
         <div class="group_container" id="copy-settings">
             <div class="copy">
-                <span id="copy-title">Copy Classes</span><br>
-                <span id="copy-checkboxes"> <?php foreach ($classes as $class) echo "<input class='copy_class_checkbox' type='checkbox' name='class' value='" . $class["id"] . "' checked>" . htmlspecialchars($class["name"]) . "</input><br> "; ?></span>
+                <span id="copy-title">Copy subjects</span><br>
+                <span id="copy-checkboxes"> <?php foreach ($subjects as $subject) echo "<input class='copy_subject_checkbox' type='checkbox' name='subject' value='" . $subject["id"] . "' checked>" . htmlspecialchars($subject["name"]) . "</input><br> "; ?></span>
             </div>
         </div>
         <div class="group_container" id="year-name">
@@ -123,6 +123,7 @@ $con->close();
     <script src="../overlays.js"></script>
     <script src="../school_years.js"></script>
     <script src="script.js"></script>
+    <?php if ($config["tracking"]["matomo"]["on"]) echo ($config["tracking"]["matomo"]["code"]); ?>
 </body>
 
 </html>

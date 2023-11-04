@@ -32,7 +32,7 @@ namespace PHPMailer\PHPMailer;
  * 3) This is really ancient technology; you should only need to use it to talk to very old systems.
  * 4) This POP3 class is deliberately lightweight and incomplete, implementing just
  *   enough to do authentication.
- *   If you want a more complete class there are other POP3 classes for PHP available.
+ *   If you want a more complete class there are other POP3 subjects for PHP available.
  *
  * @author Richard Davey (original author) <rich@corephp.co.uk>
  * @author Marcus Bointon (Synchro/coolbru) <phpmailer@synchromedia.co.uk>
@@ -461,7 +461,7 @@ class POP3
     {
         $this->setError(
             'Connecting to the POP3 server raised a PHP warning:' .
-            "errno: $errno errstr: $errstr; errfile: $errfile; errline: $errline"
+                "errno: $errno errstr: $errstr; errfile: $errfile; errline: $errline"
         );
     }
 }

@@ -1,10 +1,10 @@
 <?php
 
-// Check if class url-parameter is given
-if (!isset($_GET["class"])) header("Location: /grades");
-$class_id = htmlspecialchars($_GET["class"]);
-// Check if class is a-z or 0-9
-if (!preg_match("/^[a-z0-9]*$/", $class_id)) header("Location: /classes");
+// Check if subject url-parameter is given
+if (!isset($_GET["subject"])) header("Location: /grades");
+$subject_id = htmlspecialchars($_GET["subject"]);
+// Check if subject is a-z or 0-9
+if (!preg_match("/^[a-z0-9]*$/", $subject_id)) header("Location: /subjects");
 
 // Check login state
 require($_SERVER["DOCUMENT_ROOT"] . "/res/php/session.php");
@@ -27,12 +27,12 @@ $con = mysqli_connect(
 );
 if (mysqli_connect_errno()) exit("Error with the Database");
 
-// Get class
-if ($stmt = $con->prepare('SELECT name, color, user_id, last_used, grade_k, grade_m, grade_t, grade_s FROM classes WHERE id = ?')) {
-    $stmt->bind_param('s', $class_id);
+// Get subject
+if ($stmt = $con->prepare('SELECT name, color, user_id, last_used, grade_k, grade_m, grade_t, grade_s FROM subjects WHERE id = ?')) {
+    $stmt->bind_param('s', $subject_id);
     $stmt->execute();
     $stmt->store_result();
-    $stmt->bind_result($class_name, $class_color, $user_id, $last_used, $grade_k, $grade_m, $grade_t, $grade_s);
+    $stmt->bind_result($subject_name, $subject_color, $user_id, $last_used, $grade_k, $grade_m, $grade_t, $grade_s);
     $stmt->fetch();
     if ($user_id !== $_SESSION["user_id"]) {
         $name = "";
@@ -48,8 +48,8 @@ if ($stmt = $con->prepare('SELECT name, color, user_id, last_used, grade_k, grad
 
 // Get grades
 $grades = array();
-if ($stmt = $con->prepare('SELECT id, user_id, class, note, type, date, grade FROM grades WHERE class = ?')) {
-    $stmt->bind_param('s', $class_id);
+if ($stmt = $con->prepare('SELECT id, user_id, subject, note, type, date, grade FROM grades WHERE subject = ?')) {
+    $stmt->bind_param('s', $subject_id);
     $stmt->execute();
     $result = $stmt->get_result();
     foreach ($result as $row) {
@@ -59,7 +59,7 @@ if ($stmt = $con->prepare('SELECT id, user_id, class, note, type, date, grade FR
         $name = "";
         $user_id = "";
         $id = "";
-        $class = "";
+        $subject = "";
         $note = "";
         $date = "";
         $grade = "";
@@ -131,9 +131,9 @@ if ($num_of_t != 0) {
 if (!($grade_sum == 0 || $weight_sum == 0)) {
     // Calculate average
     $average = $grade_sum / $weight_sum;
-    // Insert average into class
-    if ($stmt = $con->prepare('UPDATE classes SET average = ? WHERE id = ?')) {
-        $stmt->bind_param('si', $average, $class_id);
+    // Insert average into subject
+    if ($stmt = $con->prepare('UPDATE subjects SET average = ? WHERE id = ?')) {
+        $stmt->bind_param('si', $average, $subject_id);
         $stmt->execute();
         $stmt->close();
     } else {
@@ -142,8 +142,8 @@ if (!($grade_sum == 0 || $weight_sum == 0)) {
 }
 // If no grades but average is given -> delete average
 if ($num_of_k + $num_of_m + $num_of_t + $num_of_s == 0) {
-    if ($stmt = $con->prepare('UPDATE classes SET average = 0 WHERE id = ?')) {
-        $stmt->bind_param('i', $class_id);
+    if ($stmt = $con->prepare('UPDATE subjects SET average = 0 WHERE id = ?')) {
+        $stmt->bind_param('i', $subject_id);
         $stmt->execute();
         $stmt->close();
     } else {
@@ -162,7 +162,7 @@ $con->close();
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $class_name ?> | Noten-App</title>
+    <title><?= $subject_name ?> | Noten-App</title>
     <link rel="stylesheet" href="/res/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="/res/fontawesome/css/solid.min.css">
     <link rel="stylesheet" href="/res/css/fonts.css">
@@ -197,18 +197,18 @@ $con->close();
         </a>
     </nav>
     <main id="main">
-        <div class="class_title">
-            <h1><?= $class_name ?></h1>
+        <div class="subject_title">
+            <h1><?= $subject_name ?></h1>
         </div>
-        <div class="class_edit">
+        <div class="subject_edit">
             <i id="view_toggle" class="fa-solid fa-chart-simple" onclick="toggle_stats_view()"></i>
-            <i class="fas fa-cog" onclick="location.assign('/classes/edit/?class=<?= $class_id ?>')"></i>
+            <i class="fas fa-cog" onclick="location.assign('/subjects/edit/?subject=<?= $subject_id ?>')"></i>
         </div>
-        <div class="class-main_content">
+        <div class="subject-main_content">
             <div class="gradelist">
                 <?php
                 foreach ($grades as $grade) {
-                    echo '<div class="grade_entry" onclick="location.assign(\'/classes/grades/edit/?grade=' . $grade["id"] . '\')">';
+                    echo '<div class="grade_entry" onclick="location.assign(\'/subjects/grades/edit/?grade=' . $grade["id"] . '\')">';
                     echo '<div class="grade">';
                     if (systemRun("punkte")) echo (calcToPoints(true, $grade["grade"]));
                     else echo $grade["grade"];
@@ -239,13 +239,14 @@ $con->close();
             </div>
             <div class="statistics"></div>
         </div>
-        <div class="grade_add" onclick="location.assign('/classes/grades/add/?class=<?= $class_id ?>')">
+        <div class="grade_add" onclick="location.assign('/subjects/grades/add/?subject=<?= $subject_id ?>')">
             <div>Add grade <i class="fas fa-plus"></i></div>
         </div>
     </main>
     <script src="https://assets.noten-app.de/js/themes/themes.js"></script>
     <script src="/res/js/point-system.js"></script>
     <script src="./view-cycler.js"></script>
+    <?php if ($config["tracking"]["matomo"]["on"]) echo ($config["tracking"]["matomo"]["code"]); ?>
 </body>
 
 </html>

@@ -25,8 +25,8 @@ if ($stmt = $con->prepare("DELETE FROM " . $config["db"]["tables"]["grades"] . "
     $stmt->close();
 }
 
-// Delete all classes
-if ($stmt = $con->prepare("DELETE FROM " . $config["db"]["tables"]["classes"] . " WHERE user_id = ? AND year = ?")) {
+// Delete all subjects
+if ($stmt = $con->prepare("DELETE FROM " . $config["db"]["tables"]["subjects"] . " WHERE user_id = ? AND year = ?")) {
     $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_years"]);
     $stmt->execute();
     $stmt->close();

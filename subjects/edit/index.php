@@ -1,10 +1,10 @@
 <?php
 
-// Check if class url-parameter is given
-if (!isset($_GET["class"])) header("Location: /classes");
-$class_id = htmlspecialchars($_GET["class"]);
-// Check if class is a-z or 0-9
-if (!preg_match("/^[a-z0-9]*$/", $class_id)) header("Location: /classes");
+// Check if subject url-parameter is given
+if (!isset($_GET["subject"])) header("Location: /subjects");
+$subject_id = htmlspecialchars($_GET["subject"]);
+// Check if subject is a-z or 0-9
+if (!preg_match("/^[a-z0-9]*$/", $subject_id)) header("Location: /subjects");
 
 // Check login state
 require($_SERVER["DOCUMENT_ROOT"] . "/res/php/session.php");
@@ -24,12 +24,12 @@ $con = mysqli_connect(
 );
 if (mysqli_connect_errno()) exit("Error with the Database");
 
-// Get class
-if ($stmt = $con->prepare('SELECT name, color, user_id, last_used, grade_k, grade_m, grade_t, grade_s FROM classes WHERE id = ?')) {
-    $stmt->bind_param('s', $class_id);
+// Get subject
+if ($stmt = $con->prepare('SELECT name, color, user_id, last_used, grade_k, grade_m, grade_t, grade_s FROM subjects WHERE id = ?')) {
+    $stmt->bind_param('s', $subject_id);
     $stmt->execute();
     $stmt->store_result();
-    $stmt->bind_result($class_name, $class_color, $user_id, $last_used, $grade_k, $grade_m, $grade_t, $grade_s);
+    $stmt->bind_result($subject_name, $subject_color, $user_id, $last_used, $grade_k, $grade_m, $grade_t, $grade_s);
     $stmt->fetch();
     if ($user_id !== $_SESSION["user_id"]) {
         $name = "";
@@ -54,7 +54,7 @@ $con->close();
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $class_name ?> | Noten-App</title>
+    <title><?= $subject_name ?> | Noten-App</title>
     <link rel="stylesheet" href="/res/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="/res/fontawesome/css/solid.min.css">
     <link rel="stylesheet" href="/res/css/fonts.css">
@@ -77,35 +77,35 @@ $con->close();
 
 <body>
     <nav>
-        <a href="/classes/" class="nav-link">
+        <a href="/subjects/" class="nav-link">
             <div class="navbar_icon">
                 <i class="fas fa-arrow-left"></i>
             </div>
         </a>
-        <div class="nav-link" id="save_class">
+        <div class="nav-link" id="save_subject">
             <div class="navbar_icon navbar_icon-save">
                 <i class="fa-solid fa-floppy-disk"></i>
             </div>
         </div>
     </nav>
     <main id="main">
-        <div class="class_title">
+        <div class="subject_title">
             <h1><?= $class_name ?></h1>
         </div>
-        <div class="class_edit">
-            <i id="view_settings" class="fas fa-cog" onclick="location.assign('/classes/grades?class=<?= $class_id ?>')"></i>
+        <div class="subject_edit">
+            <i id="view_settings" class="fas fa-cog" onclick="location.assign('/subjects/grades?subject=<?= $class_id ?>')"></i>
         </div>
-        <div class="class-main_content">
+        <div class="subject-main_content">
             <div class="statistics main_view" id="main_view-statistics">
                 STATS
             </div>
             <div class="settings main_view" id="main_view-settings">
                 <div class="name">
                     <div class="name-title">
-                        Classname
+                        Subject-Name
                     </div>
                     <div class="name-container">
-                        <input type="text" id="name-input" value="<?= $class_name ?>">
+                        <input type="text" id="name-input" value="<?= $subject_name ?>">
                     </div>
                 </div>
                 <div class="grading">
@@ -157,15 +157,15 @@ $con->close();
                 </div>
                 <div class="color">
                     <div class="color-title">
-                        Class-Color
+                        Subject-Color
                     </div>
                     <div class="color-input">
-                        <input type="color" id="color_input-input" value="#<?= $class_color ?>">
+                        <input type="color" id="color_input-input" value="#<?= $subject_color ?>">
                     </div>
                 </div>
                 <div class="delete dangerzone">
                     <div class="color-title">
-                        Delete class
+                        Delete subject
                     </div>
                     <div class="delete-button">
                         <button onclick="deleteClass();">Delete</button>
@@ -173,14 +173,15 @@ $con->close();
                 </div>
             </div>
         </div>
-        <div id="classID" style="display: none;"><?= $class_id ?></div>
+        <div id="subjectID" style="display: none;"><?= $subject_id ?></div>
     </main>
     <script src="https://assets.noten-app.de/js/jquery/jquery-3.6.1.min.js"></script>
     <script src="https://assets.noten-app.de/js/themes/themes.js"></script>
     <script src="./test-switch.js"></script>
     <script src="./view-cycler.js"></script>
-    <script src="./modify-class.js"></script>
-    <script src="./delete-class.js"></script>
+    <script src="./modify-subject.js"></script>
+    <script src="./delete-subject.js"></script>
+    <?php if ($config["tracking"]["matomo"]["on"]) echo ($config["tracking"]["matomo"]["code"]); ?>
 </body>
 
 </html>
