@@ -142,7 +142,7 @@ $con->close();
     <script src="https://assets.noten-app.de/js/jquery/jquery-3.6.1.min.js"></script>
     <script src="https://assets.noten-app.de/js/themes/themes.js"></script>
     <script src="./type-switch.js"></script>
-    <script src="./add-subject.js"></script>
+    <script src="./add-homework.js"></script>
     <?php if ($config["tracking"]["matomo"]["on"]) echo ($config["tracking"]["matomo"]["code"]); ?>
 </body>
 
