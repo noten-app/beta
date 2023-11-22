@@ -107,8 +107,8 @@ $con->close();
                     <select name="subject-selector" id="subject-selector">
                         <?php
                         foreach ($subjectlist as $subject) {
-                            if ($task["subject"] == $class["id"]) echo '<option value="' . $class["id"] . '" selected>' . $class["name"] . '</option>';
-                            else echo '<option value="' . $class["id"] . '">' . $class["name"] . '</option>';
+                            if ($task["subject"] == $subject["id"]) echo '<option value="' . $subject["id"] . '" selected>' . $subject["name"] . '</option>';
+                            else echo '<option value="' . $subject["id"] . '">' . $subject["name"] . '</option>';
                         }
                         ?>
                     </select>

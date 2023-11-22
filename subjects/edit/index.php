@@ -90,10 +90,10 @@ $con->close();
     </nav>
     <main id="main">
         <div class="subject_title">
-            <h1><?= $class_name ?></h1>
+            <h1><?= $subject_name ?></h1>
         </div>
         <div class="subject_edit">
-            <i id="view_settings" class="fas fa-cog" onclick="location.assign('/subjects/grades?subject=<?= $class_id ?>')"></i>
+            <i id="view_settings" class="fas fa-cog" onclick="location.assign('/subjects/grades?subject=<?= $subject_id ?>')"></i>
         </div>
         <div class="subject-main_content">
             <div class="statistics main_view" id="main_view-statistics">
