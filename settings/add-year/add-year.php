@@ -87,7 +87,7 @@ if (isset($_POST["transfer_subjects"])) {
     }
 }
 
-if ($stmt = $con->prepare("INSERT INTO " . config_table_name_school_years . " (id, name, owner) VALUES (?, ?, ?)")) {
+if ($stmt = $con->prepare("INSERT INTO " . $config["db"]["tables"]["years"] . " (id, name, owner) VALUES (?, ?, ?)")) {
     $stmt->bind_param("sss", $year_id, $_POST["year_name"], $_SESSION["user_id"]);
     $stmt->execute();
     $stmt->close();

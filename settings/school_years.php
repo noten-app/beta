@@ -19,7 +19,7 @@ $con = mysqli_connect(
 if (mysqli_connect_errno()) exit("Error with the Database");
 
 // Check if school year exists for this user
-if ($stmt = $con->prepare("SELECT COUNT(*) FROM " . config_table_name_school_years . " WHERE owner = ? AND id = ?")) {
+if ($stmt = $con->prepare("SELECT COUNT(*) FROM " . $config["db"]["tables"]["years"] . " WHERE owner = ? AND id = ?")) {
     $stmt->bind_param("ss", $_SESSION["user_id"], $_POST["school_year"]);
     $stmt->execute();
     $result = $stmt->get_result();

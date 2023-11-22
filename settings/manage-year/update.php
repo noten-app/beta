@@ -33,7 +33,7 @@ if (strlen($_POST["year_name"]) < 1) {
 }
 
 // Update year
-if ($stmt = $con->prepare("UPDATE " . config_table_name_school_years . " SET name = ? WHERE id = ? AND owner = ?")) {
+if ($stmt = $con->prepare("UPDATE " . $config["db"]["tables"]["years"] . " SET name = ? WHERE id = ? AND owner = ?")) {
     $stmt->bind_param("sss", $_POST["year_name"], $_SESSION["setting_years"], $_SESSION["user_id"]);
     $stmt->execute();
     $stmt->close();
