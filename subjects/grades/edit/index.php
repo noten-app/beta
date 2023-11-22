@@ -89,7 +89,7 @@ $con->close();
     </nav>
     <main id="main">
         <div class="subject_title">
-            <h1 style="color: #<?= $class_color ?>">Editing Grade</h1>
+            <h1>Editing Grade</h1>
         </div>
         <div class="subject-main_content">
             <div class="type">
