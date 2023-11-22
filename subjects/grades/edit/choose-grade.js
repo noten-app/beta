@@ -9,7 +9,7 @@ const grade_button_4 = document.querySelector('.gr4');
 const grade_button_5 = document.querySelector('.gr5');
 const grade_button_6 = document.querySelector('.gr6');
 
-const grade_modifier_container = document.querySelector('.grade-modifier_container');
+const weight_oralodifier_container = document.querySelector('.grade-modifier_container');
 const grade_button_full = document.querySelector('.gr-full');
 const grade_button_025 = document.querySelector('.gr-025');
 const grade_button_050 = document.querySelector('.gr-050');
@@ -25,7 +25,7 @@ const gr_075_container = document.querySelector('.gr-075');
 
 function chooseGrade(grade) {
     grade_container_1_6.style.display = 'none';
-    grade_modifier_container.style.display = 'grid';
+    weight_oralodifier_container.style.display = 'grid';
     gr_full_grade.innerText = grade;
     gr_025_grade.innerText = grade + 0.25;
     gr_050_grade.innerText = grade + 0.5;
@@ -65,7 +65,7 @@ function resetGradeModifier() {
     gr_025_container.classList.remove('grade-modify_active');
     gr_050_container.classList.remove('grade-modify_active');
     gr_075_container.classList.remove('grade-modify_active');
-    grade_modifier_container.style.display = 'none';
+    weight_oralodifier_container.style.display = 'none';
     grade_container_1_6.style.display = 'grid';
     gr_025_container.style.display = 'grid';
     gr_050_container.style.display = 'grid';
