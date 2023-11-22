@@ -43,11 +43,13 @@ else $gradingTypeT = strval($gradingTypeT);
 // Remove # from color
 $subjectColor = str_replace("#", "", $subjectColor);
 
+// Generate id (8char random string)
+$subjectID = bin2hex(random_bytes(4));
+
 // Add subject to DB and get inserted ID
-if ($stmt = $con->prepare('INSERT INTO ' . $config["db"]["tables"]["subjects"] . ' (name, color, user_id, grade_k, grade_m, grade_t, grade_s, year) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')) {
-    $stmt->bind_param('sssiisis', $subjectName, $subjectColor, $_SESSION["user_id"], $gradingTypeK, $gradingTypeM, $gradingTypeT, $gradingTypeS, $_SESSION["setting_years"]);
+if ($stmt = $con->prepare('INSERT INTO ' . $config["db"]["tables"]["subjects"] . ' (id, name, color, user_id, grade_k, grade_m, grade_t, grade_s, year) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')) {
+    $stmt->bind_param('ssssiisis', $subjectID, $subjectName, $subjectColor, $_SESSION["user_id"], $gradingTypeK, $gradingTypeM, $gradingTypeT, $gradingTypeS, $_SESSION["setting_years"]);
     $stmt->execute();
-    $subjectID = $stmt->insert_id;
     $stmt->close();
     exit(json_encode(array("success" => true, "subjectID" => $subjectID)));
 } else die("Error with the Database");
