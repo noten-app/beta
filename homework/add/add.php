@@ -38,9 +38,12 @@ $task = htmlentities($task);
 // Create given-date
 $date_given = date("Y-m-d");
 
-// Add subject to DB and get inserted ID
-if ($stmt = $con->prepare('INSERT INTO ' . $config["db"]["tables"]["homework"] . ' (user_id, subject, given, deadline, text, type, year) VALUES (?, ?, ?, ?, ?, ?, ?)')) {
-    $stmt->bind_param('sisssss', $_SESSION["user_id"], $subject, $date_given, $date_due, $task, $type, $_SESSION["setting_years"]);
+// Generate id (8char random string)
+$entryId = bin2hex(random_bytes(4));
+
+// Add subject to DB
+if ($stmt = $con->prepare('INSERT INTO ' . $config["db"]["tables"]["homework"] . ' (user_id, entry_id, subject, given, deadline, text, type, year) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')) {
+    $stmt->bind_param('ssssssss', $_SESSION["user_id"], $entryId, $subject, $date_given, $date_due, $task, $type, $_SESSION["setting_years"]);
     $stmt->execute();
     $stmt->close();
     exit("success");
