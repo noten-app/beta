@@ -157,7 +157,7 @@ $con->close();
             </div>
         </div>
         <div class="grade_add">
-            <div id="grade_save"><i class="fas fa-floppy-disk"></i></div>
+            <div id="weight_otherave"><i class="fas fa-floppy-disk"></i></div>
             <div onclick="location.reload()"><i class="fa-solid fa-rotate-left"></i></div>
             <div id="grade_delete"><i class="fa-solid fa-trash-can"></i></div>
         </div>

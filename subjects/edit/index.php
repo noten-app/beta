@@ -25,11 +25,11 @@ $con = mysqli_connect(
 if (mysqli_connect_errno()) exit("Error with the Database");
 
 // Get subject
-if ($stmt = $con->prepare('SELECT name, color, user_id, last_used, grade_k, grade_m, grade_t, grade_s FROM subjects WHERE id = ?')) {
+if ($stmt = $con->prepare('SELECT name, color, user_id, last_used, weight_exam, weight_oral, weight_test, weight_other FROM subjects WHERE id = ?')) {
     $stmt->bind_param('s', $subject_id);
     $stmt->execute();
     $stmt->store_result();
-    $stmt->bind_result($subject_name, $subject_color, $user_id, $last_used, $grade_k, $grade_m, $grade_t, $grade_s);
+    $stmt->bind_result($subject_name, $subject_color, $user_id, $last_used, $weight_exam, $weight_oral, $weight_test, $weight_other);
     $stmt->fetch();
     if ($user_id !== $_SESSION["user_id"]) {
         $name = "";
@@ -116,26 +116,26 @@ $con->close();
                         <div class="grading-option">
                             <div class="grading-option-title">Exams</div>
                             <div class="grading-option-input">
-                                <input type="number" id="grading_option-type_k" value="<?= $grade_k ?>" />
+                                <input type="number" id="grading_option-type_k" value="<?= $weight_exam ?>" />
                             </div>
                         </div>
                         <div class="grading-option">
                             <div class="grading-option-title">Verbal</div>
                             <div class="grading-option-input">
-                                <input type="number" id="grading_option-type_m" value="<?= $grade_m ?>" />
+                                <input type="number" id="grading_option-type_m" value="<?= $weight_oral ?>" />
                             </div>
                         </div>
-                        <div class="grading-option <?php if ($grade_t === "1exam") echo "grading-option-hidden" ?>" id="grading-option_tests">
+                        <div class="grading-option <?php if ($weight_test === "1exam") echo "grading-option-hidden" ?>" id="grading-option_tests">
                             <div class="grading-option-title">Tests</div>
                             <div class="grading-option-input">
-                                <input type="number" id="grading_option-type_t" value="<?php if ($grade_t !== "1exam") echo $grade_t;
+                                <input type="number" id="grading_option-type_t" value="<?php if ($weight_test !== "1exam") echo $weight_test;
                                                                                         else echo 1; ?>" />
                             </div>
                         </div>
                         <div class="grading-option">
                             <div class="grading-option-title">Other</div>
                             <div class="grading-option-input">
-                                <input type="number" id="grading_option-type_s" value="<?= $grade_s ?>" />
+                                <input type="number" id="grading_option-type_s" value="<?= $weight_other ?>" />
                             </div>
                         </div>
                     </div>
@@ -146,10 +146,10 @@ $con->close();
                     </div>
                     <div class="test-behaviour-switch">
                         <div class="button_divider">
-                            <div class="<?php if ($grade_t === "1exam") echo "button_divider-button_active" ?>" id="test-behaviour-switch_all1">
+                            <div class="<?php if ($weight_test === "1exam") echo "button_divider-button_active" ?>" id="test-behaviour-switch_all1">
                                 All Tests<br>1 Exam
                             </div>
-                            <div class="<?php if ($grade_t !== "1exam") echo "button_divider-button_active" ?>" id="test-behaviour-switch_custom">
+                            <div class="<?php if ($weight_test !== "1exam") echo "button_divider-button_active" ?>" id="test-behaviour-switch_custom">
                                 Custom
                             </div>
                         </div>

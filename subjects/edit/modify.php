@@ -57,10 +57,10 @@ else $gradingTypeT = strval($gradingTypeT);
 $subjectColor = str_replace("#", "", $subjectColor);
 
 // Make an sql statement to update the subject
-// exit("UPDATE ".$config["db"]["tables"]["subjects"]." SET name = '".$subjectName."', color = '".$subjectColor."', grade_k = ".$gradingTypeK.", grade_m = ".$gradingTypeM.", grade_t = '".$gradingTypeT."', grade_s = ".$gradingTypeS." WHERE id = ".$subjectID);
+// exit("UPDATE ".$config["db"]["tables"]["subjects"]." SET name = '".$subjectName."', color = '".$subjectColor."', weight_exam = ".$gradingTypeK.", weight_oral = ".$gradingTypeM.", weight_test = '".$gradingTypeT."', weight_other = ".$gradingTypeS." WHERE id = ".$subjectID);
 
 // Update subject in DB
-if ($stmt = $con->prepare('UPDATE ' . $config["db"]["tables"]["subjects"] . ' SET name = ?, color = ?, grade_k = ?, grade_m = ?, grade_t = ?, grade_s = ? WHERE id = ?')) {
+if ($stmt = $con->prepare('UPDATE ' . $config["db"]["tables"]["subjects"] . ' SET name = ?, color = ?, weight_exam = ?, weight_oral = ?, weight_test = ?, weight_other = ? WHERE id = ?')) {
     $stmt->bind_param('ssiisii', $subjectName, $subjectColor, $gradingTypeK, $gradingTypeM, $gradingTypeT, $gradingTypeS, $subjectID);
     $stmt->execute();
     $stmt->close();

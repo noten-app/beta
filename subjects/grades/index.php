@@ -28,11 +28,11 @@ $con = mysqli_connect(
 if (mysqli_connect_errno()) exit("Error with the Database");
 
 // Get subject
-if ($stmt = $con->prepare('SELECT name, color, user_id, last_used, grade_k, grade_m, grade_t, grade_s FROM '.$config["db"]["tables"]["subjects"].' WHERE id = ?')) {
+if ($stmt = $con->prepare('SELECT name, color, user_id, last_used, weight_exam, weight_oral, weight_test, weight_other FROM ' . $config["db"]["tables"]["subjects"] . ' WHERE id = ?')) {
     $stmt->bind_param('s', $subject_id);
     $stmt->execute();
     $stmt->store_result();
-    $stmt->bind_result($subject_name, $subject_color, $user_id, $last_used, $grade_k, $grade_m, $grade_t, $grade_s);
+    $stmt->bind_result($subject_name, $subject_color, $user_id, $last_used, $weight_exam, $weight_oral, $weight_test, $weight_other);
     $stmt->fetch();
     if ($user_id !== $_SESSION["user_id"]) {
         $name = "";
@@ -84,30 +84,30 @@ foreach ($grades as $grade) {
     if ($grade["type"] == "s") $num_of_s++;
 }
 // Calculate the sum of all weights
-if ($grade_t == "1exam" || $grade_t == "") $weight_sum = $grade_k + $grade_m + $grade_s;
-else $weight_sum = $grade_k + $grade_m + $grade_t + $grade_s;
+if ($weight_test == "1exam" || $weight_test == "") $weight_sum = $weight_exam + $weight_oral + $weight_other;
+else $weight_sum = $weight_exam + $weight_oral + $weight_test + $weight_other;
 // Calculate average (not tests)
-$grade_sum = 0.0;
+$weight_otherum = 0.0;
 $weight_sum = 0.0;
 foreach ($grades as $grade) {
     switch ($grade["type"]) {
         case "k":
-            $grade_sum += $grade["grade"] * $grade_k;
-            $weight_sum += $grade_k;
+            $weight_otherum += $grade["grade"] * $weight_exam;
+            $weight_sum += $weight_exam;
             break;
         case "m":
-            $grade_sum += $grade["grade"] * $grade_m;
-            $weight_sum += $grade_m;
+            $weight_otherum += $grade["grade"] * $weight_oral;
+            $weight_sum += $weight_oral;
             break;
         case "s":
-            $grade_sum += $grade["grade"] * $grade_s;
-            $weight_sum += $grade_s;
+            $weight_otherum += $grade["grade"] * $weight_other;
+            $weight_sum += $weight_other;
             break;
     }
 }
 // Add tests to average
 if ($num_of_t != 0) {
-    if ($grade_t == "1exam" || $grade_t == "") {
+    if ($weight_test == "1exam" || $weight_test == "") {
         // Get average of tests and add it to the average as one k
         $test_sum = 0;
         $test_count = 0;
@@ -118,19 +118,19 @@ if ($num_of_t != 0) {
             }
         }
         $test_avg = $test_sum / $test_count;
-        $grade_sum += $test_avg * $grade_k;
+        $weight_otherum += $test_avg * $weight_exam;
     } else {
-        // Add each test to the average with weight grade_t
+        // Add each test to the average with weight weight_test
         foreach ($grades as $grade) {
             if ($grade["type"] == "t") {
-                $grade_sum += $grade["grade"] * $grade_t;
+                $weight_otherum += $grade["grade"] * $weight_test;
             }
         }
     }
 }
-if (!($grade_sum == 0 || $weight_sum == 0)) {
+if (!($weight_otherum == 0 || $weight_sum == 0)) {
     // Calculate average
-    $average = $grade_sum / $weight_sum;
+    $average = $weight_otherum / $weight_sum;
     // Insert average into subject
     if ($stmt = $con->prepare('UPDATE subjects SET average = ? WHERE id = ?')) {
         $stmt->bind_param('si', $average, $subject_id);
@@ -212,7 +212,7 @@ $con->close();
                     echo '<div class="grade">';
                     if (systemRun("punkte")) echo (calcToPoints(true, $grade["grade"]));
                     else echo $grade["grade"];
-                    echo '</div><div class="grade_type">';
+                    echo '</div><div class="weight_testype">';
                     switch (strtolower($grade["type"])) {
                         case "k":
                             echo "Exam";

@@ -1,8 +1,8 @@
-const grade_save_button = document.querySelector('#grade_save');
+const weight_otherave_button = document.querySelector('#weight_otherave');
 const date_input_input = document.getElementById('date_input-input');
 const note_input = document.getElementById('note-input');
 
-grade_save_button.addEventListener('click', () => {
+weight_otherave_button.addEventListener('click', () => {
     $.ajax({
         url: './edit.php',
         type: 'POST',

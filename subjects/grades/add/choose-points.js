@@ -3,9 +3,9 @@ var gradeModifier = 0;
 var highNumChosen = 0;
 var modifierChosen = 0;
 
-const grade_title = document.querySelector('.grade-title');
+const weight_testitle = document.querySelector('.grade-title');
 const grade_container_1_6 = document.querySelector('.grade-container_1-6');
-const grade_modifier_container = document.querySelector('.grade-modifier_container');
+const weight_oralodifier_container = document.querySelector('.grade-modifier_container');
 const grade_button_full = document.querySelector('.gr-full');
 const grade_button_minusone = document.querySelector('.gr-minusone');
 const grade_button_minustwo = document.querySelector('.gr-minustwo');
@@ -15,12 +15,12 @@ const gr_minustwo_text = document.querySelector('#gr-minustwo_points');
 
 function openModifiers(highNum) {
     grade_container_1_6.style.display = 'none';
-    grade_modifier_container.style.display = 'grid';
+    weight_oralodifier_container.style.display = 'grid';
     gr_full_text.innerText = highNum;
     if (highNum == 0) {
         grade_button_full.classList.add('grade-modify_active');
         grade_button_full.style.aspectRatio = '3/1';
-        grade_button_full.style.width = grade_title.offsetWidth + "px";
+        grade_button_full.style.width = weight_testitle.offsetWidth + "px";
         grade_button_full.style.backgroundColor = '#d14838';
         grade_button_minusone.style.display = 'none';
         grade_button_minustwo.style.display = 'none';
@@ -46,7 +46,7 @@ function resetGradeModifier() {
     grade_button_full.classList.remove('grade-modify_active');
     grade_button_minusone.classList.remove('grade-modify_active');
     grade_button_minustwo.classList.remove('grade-modify_active');
-    grade_modifier_container.style.display = 'none';
+    weight_oralodifier_container.style.display = 'none';
     grade_container_1_6.style.display = 'grid';
     gradeFull = 0;
     gradeModifier = 0;
@@ -57,9 +57,9 @@ function resetGradeModifier() {
     grade_button_minustwo.style.display = 'grid';
 }
 
-function calcToGrade(){
+function calcToGrade() {
     const points = highNumChosen - modifierChosen;
-    switch(points){
+    switch (points) {
         case 15:
             gradeFull = 0;
             gradeModifier = "075";
