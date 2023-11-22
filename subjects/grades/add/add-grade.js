@@ -12,7 +12,7 @@ grade_add_button.addEventListener('click', () => {
             date: date_input_input.value,
             note: note_input.value,
             type: typeGrade,
-            class: document.getElementById('subject_id').innerText
+            subject: document.getElementById('subject_id').innerText
         },
         success: (data) => {
             if (data === 'success') location.assign("/subjects/grades/?subject=" + document.getElementById('subject_id').innerText);
