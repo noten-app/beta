@@ -47,7 +47,7 @@ $subjectColor = str_replace("#", "", $subjectColor);
 $subjectID = bin2hex(random_bytes(4));
 
 // Add subject to DB and get inserted ID
-if ($stmt = $con->prepare('INSERT INTO ' . $config["db"]["tables"]["subjects"] . ' (id, name, color, user_id, grade_k, grade_m, grade_t, grade_s, year) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')) {
+if ($stmt = $con->prepare('INSERT INTO ' . $config["db"]["tables"]["subjects"] . ' (id, name, color, user_id, grade_k, grade_m, grade_t, grade_s, year) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)')) {
     $stmt->bind_param('ssssiisis', $subjectID, $subjectName, $subjectColor, $_SESSION["user_id"], $gradingTypeK, $gradingTypeM, $gradingTypeT, $gradingTypeS, $_SESSION["setting_years"]);
     $stmt->execute();
     $stmt->close();
