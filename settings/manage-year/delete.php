@@ -40,7 +40,7 @@ if ($stmt = $con->prepare("DELETE FROM " . $config["db"]["tables"]["homework"] .
 }
 
 // Delete year
-if ($stmt = $con->prepare("DELETE FROM " . config_table_name_school_years . " WHERE id = ? AND owner = ?")) {
+if ($stmt = $con->prepare("DELETE FROM " . $config["db"]["tables"]["years"] . " WHERE id = ? AND owner = ?")) {
     $stmt->bind_param("ss", $_SESSION["setting_years"], $_SESSION["user_id"]);
     $stmt->execute();
     $stmt->close();

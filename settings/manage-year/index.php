@@ -19,7 +19,7 @@ $con = mysqli_connect(
 if (mysqli_connect_errno()) exit("Error with the Database");
 
 // Get years
-if ($stmt = $con->prepare("SELECT id, name FROM " . config_table_name_school_years . " WHERE owner = ?")) {
+if ($stmt = $con->prepare("SELECT id, name FROM " . $config["db"]["tables"]["years"] . " WHERE owner = ?")) {
     $stmt->bind_param("s", $_SESSION["user_id"]);
     $stmt->execute();
     $stmt->bind_result($year, $name);
@@ -111,7 +111,7 @@ $con->close();
         <footer>
             <div class="footer_container">
                 <p>Made with ❤️ in Germany.</p>
-                <p><?php echo config_version_name; ?><?php if ($_SESSION["beta_tester"] == 1) echo " Beta" ?></p>
+                <p><?php echo $config["version"]["name"]; ?><?php if ($_SESSION["beta_tester"] == 1) echo " Beta" ?></p>
             </div>
         </footer>
     </main>
