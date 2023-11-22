@@ -74,8 +74,8 @@ if (isset($_POST["transfer_subjects"])) {
                 if ($stmt->get_result()->num_rows == 0) {
                     $stmt->close();
                     $regenerate = false;
-                    if ($stmt = $con->prepare("INSERT INTO " . $config["db"]["tables"]["subjects"] . " (id, name, color, user_id, grade_k, grade_m, grade_t, grade_s, year) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
-                        $stmt->bind_param("sssssssss", $subject_id, $subject["name"], $subject["color"], $_SESSION["user_id"], $subject["grade_k"], $subject["grade_m"], $subject["grade_t"], $subject["grade_s"], $year_id);
+                    if ($stmt = $con->prepare("INSERT INTO " . $config["db"]["tables"]["subjects"] . " (id, name, color, user_id, weight_exam, weight_oral, weight_test, weight_other, year) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
+                        $stmt->bind_param("sssssssss", $subject_id, $subject["name"], $subject["color"], $_SESSION["user_id"], $subject["weight_exam"], $subject["weight_oral"], $subject["weight_test"], $subject["weight_other"], $year_id);
                         $stmt->execute();
                         $stmt->close();
                     }

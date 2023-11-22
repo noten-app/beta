@@ -25,11 +25,11 @@ $con = mysqli_connect(
 if (mysqli_connect_errno()) exit("Error with the Database");
 
 // Get subject
-if ($stmt = $con->prepare('SELECT name, color, user_id, last_used, grade_k, grade_m, grade_s FROM subjects WHERE id = ?')) {
+if ($stmt = $con->prepare('SELECT name, color, user_id, last_used, weight_exam, weight_oral, weight_other FROM subjects WHERE id = ?')) {
     $stmt->bind_param('s', $subject_id);
     $stmt->execute();
     $stmt->store_result();
-    $stmt->bind_result($subject_name, $subject_color, $user_id, $last_used, $grade_k, $grade_m, $grade_s);
+    $stmt->bind_result($subject_name, $subject_color, $user_id, $last_used, $weight_exam, $weight_oral, $weight_other);
     $stmt->fetch();
     if ($user_id !== $_SESSION["user_id"]) {
         $name = "";

@@ -398,7 +398,7 @@ $con->close();
     <script src="overlays.js"></script>
     <script src="rounding.js"></script>
     <script src="sorting.js"></script>
-    <script src="grade_system.js"></script>
+    <script src="weight_otherystem.js"></script>
     <script src="school_years.js"></script>
     <?php if ($config["tracking"]["matomo"]["on"]) echo ($config["tracking"]["matomo"]["code"]); ?>
 </body>

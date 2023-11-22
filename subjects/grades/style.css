@@ -51,7 +51,7 @@ Main views
     grid-template-rows: 1.5rem 1rem;
     gap: 0px 0px;
     grid-auto-flow: row;
-    grid-template-areas: "grade_type grade" "grade_date grade";
+    grid-template-areas: "weight_testype grade" "grade_date grade";
     margin-bottom: 1rem;
 }
 
@@ -65,8 +65,8 @@ Main views
     text-align: end;
 }
 
-.grade_type {
-    grid-area: grade_type;
+.weight_testype {
+    grid-area: weight_testype;
     font-size: 1.5rem;
 }
 
