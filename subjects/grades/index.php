@@ -28,7 +28,7 @@ $con = mysqli_connect(
 if (mysqli_connect_errno()) exit("Error with the Database");
 
 // Get subject
-if ($stmt = $con->prepare('SELECT name, color, user_id, last_used, grade_k, grade_m, grade_t, grade_s FROM subjects WHERE id = ?')) {
+if ($stmt = $con->prepare('SELECT name, color, user_id, last_used, grade_k, grade_m, grade_t, grade_s FROM '.$config["db"]["tables"]["subjects"].' WHERE id = ?')) {
     $stmt->bind_param('s', $subject_id);
     $stmt->execute();
     $stmt->store_result();
