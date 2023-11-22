@@ -115,7 +115,7 @@ $con->close();
                 foreach ($hw_dategroup as $hw_entry) {
                     echo '<div class="homework_entry">';
                     echo '<div class="classname">';
-                    foreach ($subjects as $subject) if ($subject["id"] == $hw_entry["class"]) echo $subject["name"];
+                    foreach ($subjects as $subject) if ($subject["id"] == $hw_entry["subject"]) echo $subject["name"];
                     echo '</div><div class="task" onclick="location.assign(\'./edit/?task=' . $hw_entry["entry_id"] . '\')"><span>' . $hw_entry["text"] . '</span></div>';
                     echo '<div class="dot" id="dot-' . $hw_entry["entry_id"] . '" onclick="toggleState(\'' . $hw_entry["entry_id"] . '\')">';
                     if ($hw_entry["status"] == 0) echo '<i class="fa-regular fa-circle"></i></div>';
