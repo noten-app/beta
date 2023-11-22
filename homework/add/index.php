@@ -20,8 +20,8 @@ if (mysqli_connect_errno()) exit("Error with the Database");
 
 // Get all subjects
 $subjectlist = array();
-if ($stmt = $con->prepare("SELECT name, color, id, last_used, average FROM " . $config["db"]["tables"]["subjects"] . " WHERE user_id = ?")) {
-    $stmt->bind_param("s", $_SESSION["user_id"]);
+if ($stmt = $con->prepare("SELECT name, color, id, last_used, average FROM " . $config["db"]["tables"]["subjects"] . " WHERE user_id = ? AND year = ?")) {
+    $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_years"]);
     $stmt->execute();
     $stmt->bind_result($subject_name, $subject_color, $subject_id, $subject_last_used, $subject_grade_average);
     while ($stmt->fetch()) {
