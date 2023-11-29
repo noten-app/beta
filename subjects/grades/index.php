@@ -133,7 +133,7 @@ if (!($weight_otherum == 0 || $weight_sum == 0)) {
     $average = $weight_otherum / $weight_sum;
     // Insert average into subject
     if ($stmt = $con->prepare('UPDATE subjects SET average = ? WHERE id = ?')) {
-        $stmt->bind_param('si', $average, $subject_id);
+        $stmt->bind_param('ss', $average, $subject_id);
         $stmt->execute();
         $stmt->close();
     } else {
@@ -143,7 +143,7 @@ if (!($weight_otherum == 0 || $weight_sum == 0)) {
 // If no grades but average is given -> delete average
 if ($num_of_k + $num_of_m + $num_of_t + $num_of_s == 0) {
     if ($stmt = $con->prepare('UPDATE subjects SET average = 0 WHERE id = ?')) {
-        $stmt->bind_param('i', $subject_id);
+        $stmt->bind_param('s', $subject_id);
         $stmt->execute();
         $stmt->close();
     } else {
