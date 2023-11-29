@@ -37,7 +37,7 @@ if (!isset($grade)) die("missing-grade");
 
 // Check if grade is owned by user
 if ($stmt = $con->prepare('SELECT user_id FROM ' . $config["db"]["tables"]["grades"] . ' WHERE id = ?')) {
-    $stmt->bind_param('i', $grade_id);
+    $stmt->bind_param('s', $grade_id);
     $stmt->execute();
     $stmt->store_result();
     $stmt->bind_result($user_id);
@@ -77,7 +77,7 @@ if ($stmt = $con->prepare('UPDATE ' . $config["db"]["tables"]["grades"] . ' SET 
 
     // Change subject last used
     if ($stmt = $con->prepare('UPDATE ' . $config["db"]["tables"]["subjects"] . ' SET last_used = ? WHERE id = ?')) {
-        $stmt->bind_param('si', $date, $subject_id);
+        $stmt->bind_param('ss', $date, $subject_id);
         $stmt->execute();
         $stmt->close();
         exit("success");
