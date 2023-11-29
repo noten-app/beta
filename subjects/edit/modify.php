@@ -40,7 +40,7 @@ if (!isset($subjectID)) die("missing-subjectid");
 
 // Check if subject exists and belongs to user
 if ($stmt = $con->prepare('SELECT user_id FROM ' . $config["db"]["tables"]["subjects"] . ' WHERE id = ?')) {
-    $stmt->bind_param('i', $subjectID);
+    $stmt->bind_param('s', $subjectID);
     $stmt->execute();
     $stmt->store_result();
     $stmt->bind_result($userID);
@@ -61,7 +61,7 @@ $subjectColor = str_replace("#", "", $subjectColor);
 
 // Update subject in DB
 if ($stmt = $con->prepare('UPDATE ' . $config["db"]["tables"]["subjects"] . ' SET name = ?, color = ?, weight_exam = ?, weight_oral = ?, weight_test = ?, weight_other = ? WHERE id = ?')) {
-    $stmt->bind_param('ssiisii', $subjectName, $subjectColor, $gradingTypeK, $gradingTypeM, $gradingTypeT, $gradingTypeS, $subjectID);
+    $stmt->bind_param('ssiisis', $subjectName, $subjectColor, $gradingTypeK, $gradingTypeM, $gradingTypeT, $gradingTypeS, $subjectID);
     $stmt->execute();
     $stmt->close();
     exit("success");
