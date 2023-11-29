@@ -34,7 +34,7 @@ if (!isset($subject_id)) die("missing-subject");
 
 // Check if subject is owned by user
 if ($stmt = $con->prepare('SELECT user_id FROM ' . $config["db"]["tables"]["subjects"] . ' WHERE id = ?')) {
-    $stmt->bind_param('i', $subject_id);
+    $stmt->bind_param('s', $subject_id);
     $stmt->execute();
     $stmt->store_result();
     $stmt->bind_result($user_id);
@@ -66,15 +66,18 @@ if (!preg_match("/^[kmst]$/", $type)) die("invalid-type");
 // Check if note is valid (max 25 chars)
 if (strlen($note) > 25) die("invalid-note");
 
+// Generate id (8char random string)
+$gradeID = bin2hex(random_bytes(4));
+
 // Add grade
-if ($stmt = $con->prepare('INSERT INTO ' . $config["db"]["tables"]["grades"] . ' (user_id, subject, note, type, date, grade, year) VALUES (?, ?, ?, ?, ?, ?, ?)')) {
-    $stmt->bind_param('sisssss', $_SESSION["user_id"], $subject_id, $note, $type, $date, $grade_float, $_SESSION["setting_years"]);
+if ($stmt = $con->prepare('INSERT INTO ' . $config["db"]["tables"]["grades"] . ' (user_id, id, subject, note, type, date, grade, year) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')) {
+    $stmt->bind_param('ssssssss', $_SESSION["user_id"], $gradeID, $subject_id, $note, $type, $date, $grade_float, $_SESSION["setting_years"]);
     $stmt->execute();
     $stmt->close();
 
     // Change subject last used
     if ($stmt = $con->prepare('UPDATE ' . $config["db"]["tables"]["subjects"] . ' SET last_used = ? WHERE id = ?')) {
-        $stmt->bind_param('si', $date, $subject_id);
+        $stmt->bind_param('ss', $date, $subject_id);
         $stmt->execute();
         $stmt->close();
         exit("success");
