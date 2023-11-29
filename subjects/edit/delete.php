@@ -23,7 +23,7 @@ if ($subject_id === "") die("no id given");
 
 // Delete subject if belonging to user, then check if one was deleted
 if ($stmt = $con->prepare('DELETE FROM subjects WHERE id = ? AND user_id = ?')) {
-	$stmt->bind_param('is', $subject_id, $_SESSION["user_id"]);
+	$stmt->bind_param('ss', $subject_id, $_SESSION["user_id"]);
 	$stmt->execute();
 	if ($stmt->affected_rows === 0) die("no subject deleted");
 	else if ($stmt->affected_rows === 1) {
