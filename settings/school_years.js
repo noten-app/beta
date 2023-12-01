@@ -6,6 +6,7 @@ function loadYear(yearID) {
             school_year: yearID
         },
         success: function (data) {
+            console.log(data);
             location.reload();
         }
     });
