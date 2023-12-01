@@ -21,7 +21,7 @@ if (mysqli_connect_errno()) exit("Error with the Database");
 // Get all subjects
 $subjectlist = array();
 if ($stmt = $con->prepare("SELECT name, color, id, last_used, average FROM " . $config["db"]["tables"]["subjects"] . " WHERE user_id = ? AND year = ? ORDER BY average ASC")) {
-    $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_years"]);
+    $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_year"]);
     $stmt->execute();
     $stmt->bind_result($subject_name, $subject_color, $subject_id, $subject_last_used, $subject_grade_average);
     while ($stmt->fetch()) {
@@ -38,7 +38,7 @@ if ($stmt = $con->prepare("SELECT name, color, id, last_used, average FROM " . $
 
 // Get year title
 if ($stmt = $con->prepare("SELECT name FROM " . $config["db"]["tables"]["accounts"] . " WHERE id = ?")) {
-    $stmt->bind_param("s", $_SESSION["setting_years"]);
+    $stmt->bind_param("s", $_SESSION["setting_year"]);
     $stmt->execute();
     $stmt->bind_result($year_name);
     $stmt->fetch();

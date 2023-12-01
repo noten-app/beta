@@ -72,7 +72,7 @@ $con->close();
             foreach ($school_years as $year) {
                 echo '<div class="dropdown_container container_item"';
                 echo 'onclick="loadYear(\'' . $year["id"] . '\');"';
-                if ($_SESSION["setting_years"] == $year["id"]) echo 'style="background-color: var(--background3-color);"';
+                if ($_SESSION["setting_year"] == $year["id"]) echo 'style="background-color: var(--background3-color);"';
                 echo '><div class="dropdown_container-name">';
                 echo "<span>" . htmlspecialchars($year["name"]) . "</span>";
                 echo '</div></div>';
@@ -84,7 +84,7 @@ $con->close();
         <div class="group_container" id="current-year" onclick="open_overlay('overlay_schoolyears');">
             <div class="current-year">
                 <span id="current-year-title">Current School Year</span><br>
-                <span id="current-year-name"><?php foreach ($school_years as $year) if ($_SESSION["setting_years"] == $year["id"]) echo htmlspecialchars($year["name"]); ?></span>
+                <span id="current-year-name"><?php foreach ($school_years as $year) if ($_SESSION["setting_year"] == $year["id"]) echo htmlspecialchars($year["name"]); ?></span>
             </div>
             <div class="calendar-icon">
                 <i class="fas fa-calendar-day"></i>
@@ -103,7 +103,7 @@ $con->close();
         </div>
         <div id="nextyear" style="display:none;visibility:hidden;" hidden>
             <?php
-            foreach ($school_years as $year) if ($_SESSION["setting_years"] != $year["id"]) {
+            foreach ($school_years as $year) if ($_SESSION["setting_year"] != $year["id"]) {
                 echo htmlspecialchars($year["id"]);
                 break;
             }

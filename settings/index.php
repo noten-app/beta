@@ -198,7 +198,7 @@ $con->close();
             foreach ($school_years as $year) {
                 echo '<div class="dropdown_container container_item"';
                 echo 'onclick="loadYear(\'' . $year["id"] . '\');"';
-                if ($_SESSION["setting_years"] == $year["id"]) echo 'style="background-color: var(--background3-color);"';
+                if ($_SESSION["setting_year"] == $year["id"]) echo 'style="background-color: var(--background3-color);"';
                 echo '><div class="dropdown_container-name">';
                 echo "<span>" . htmlspecialchars($year["name"]) . "</span>";
                 echo '</div></div>';

@@ -71,7 +71,7 @@ $gradeID = bin2hex(random_bytes(4));
 
 // Add grade
 if ($stmt = $con->prepare('INSERT INTO ' . $config["db"]["tables"]["grades"] . ' (user_id, id, subject, note, type, date, grade, year) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')) {
-    $stmt->bind_param('ssssssss', $_SESSION["user_id"], $gradeID, $subject_id, $note, $type, $date, $grade_float, $_SESSION["setting_years"]);
+    $stmt->bind_param('ssssssss', $_SESSION["user_id"], $gradeID, $subject_id, $note, $type, $date, $grade_float, $_SESSION["setting_year"]);
     $stmt->execute();
     $stmt->close();
 

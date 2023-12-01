@@ -27,7 +27,7 @@ if (isset($_GET["showall"]) && $_GET["showall"] == 1) {
 
 // Get all tasks
 if ($stmt = $con->prepare("SELECT * FROM " . $config["db"]["tables"]["homework"] . " WHERE user_id = ? AND year = ?" . $showall_text)) {
-    $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_years"]);
+    $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_year"]);
     $stmt->execute();
     $result = $stmt->get_result();
     $homework = $result->fetch_all(MYSQLI_ASSOC);
@@ -35,7 +35,7 @@ if ($stmt = $con->prepare("SELECT * FROM " . $config["db"]["tables"]["homework"]
 
 // Get all subjects
 if ($stmt = $con->prepare("SELECT * FROM " . $config["db"]["tables"]["subjects"] . " WHERE user_id = ? and year = ?")) {
-    $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_years"]);
+    $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_year"]);
     $stmt->execute();
     $result = $stmt->get_result();
     $subjects = $result->fetch_all(MYSQLI_ASSOC);

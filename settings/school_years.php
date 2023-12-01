@@ -29,12 +29,12 @@ if ($stmt = $con->prepare("SELECT COUNT(*) FROM " . $config["db"]["tables"]["yea
 }
 
 // Set school year
-$_SESSION["setting_years"] = $_POST["school_year"];
+$_SESSION["setting_year"] = $_POST["school_year"];
 if ($stmt = $con->prepare("UPDATE " . $config["db"]["tables"]["accounts"] . " SET school_year = ? WHERE id = ?")) {
     $stmt->bind_param("ss", $_POST["school_year"], $_SESSION["user_id"]);
     $stmt->execute();
 
     // Redirect
     // header("Location: /settings");
-    echo "UPDATE" . $config["db"]["tables"]["accounts"] . " SET school_year = " . $_SESSION["school_year"] . " WHERE id = " . $_SESSION["user_id"];
+    echo "UPDATE" . $config["db"]["tables"]["accounts"] . " SET school_year = " . $_SESSION["setting_year"] . " WHERE id = " . $_SESSION["user_id"];
 }
