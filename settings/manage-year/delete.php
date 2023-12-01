@@ -20,28 +20,28 @@ if (mysqli_connect_errno()) exit("Error with the Database");
 
 // Delete all grades
 if ($stmt = $con->prepare("DELETE FROM " . $config["db"]["tables"]["grades"] . " WHERE user_id = ? AND year = ?")) {
-    $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_years"]);
+    $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_year"]);
     $stmt->execute();
     $stmt->close();
 }
 
 // Delete all subjects
 if ($stmt = $con->prepare("DELETE FROM " . $config["db"]["tables"]["subjects"] . " WHERE user_id = ? AND year = ?")) {
-    $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_years"]);
+    $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_year"]);
     $stmt->execute();
     $stmt->close();
 }
 
 // Delete homework
 if ($stmt = $con->prepare("DELETE FROM " . $config["db"]["tables"]["homework"] . " WHERE user_id = ? AND year = ?")) {
-    $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_years"]);
+    $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_year"]);
     $stmt->execute();
     $stmt->close();
 }
 
 // Delete year
 if ($stmt = $con->prepare("DELETE FROM " . $config["db"]["tables"]["years"] . " WHERE id = ? AND owner = ?")) {
-    $stmt->bind_param("ss", $_SESSION["setting_years"], $_SESSION["user_id"]);
+    $stmt->bind_param("ss", $_SESSION["setting_year"], $_SESSION["user_id"]);
     $stmt->execute();
     $stmt->close();
 }

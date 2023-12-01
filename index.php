@@ -24,7 +24,7 @@ if (mysqli_connect_errno()) exit("Error with the Database");
 // Count homework status
 // Count for status 0,1 or 2 seperately
 if ($stmt = $con->prepare("SELECT status FROM " . $config["db"]["tables"]["homework"] . " WHERE user_id = ? AND year = ?")) {
-    $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_years"]);
+    $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_year"]);
     $stmt->execute();
     $stmt->bind_result($status);
     $status_list = [];
@@ -44,7 +44,7 @@ if ($stmt = $con->prepare("SELECT * FROM " . $config["db"]["tables"]["homework"]
     if (date("N") == 5 && date("H") >= 15) $tomorrow = date("Y-m-d", strtotime("+3 day"));
     else if (date("N") == 6) $tomorrow = date("Y-m-d", strtotime("+2 day"));
     else $tomorrow = date("Y-m-d", strtotime("+1 day"));
-    $stmt->bind_param("sss", $_SESSION["user_id"], $tomorrow, $_SESSION["setting_years"]);
+    $stmt->bind_param("sss", $_SESSION["user_id"], $tomorrow, $_SESSION["setting_year"]);
     $stmt->execute();
     $result = $stmt->get_result();
     $homework = $result->fetch_all(MYSQLI_ASSOC);
@@ -53,14 +53,14 @@ if ($stmt = $con->prepare("SELECT * FROM " . $config["db"]["tables"]["homework"]
 
 // Get all subjects
 if ($stmt = $con->prepare("SELECT * FROM " . $config["db"]["tables"]["subjects"] . " WHERE user_id = ? AND year = ?")) {
-    $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_years"]);
+    $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_year"]);
     $stmt->execute();
     $result = $stmt->get_result();
     $subjects = $result->fetch_all(MYSQLI_ASSOC);
 }
 // Count grades
 if ($stmt = $con->prepare("SELECT COUNT(*) FROM " . $config["db"]["tables"]["grades"] . " WHERE user_id = ? AND year = ?")) {
-    $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_years"]);
+    $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_year"]);
     $stmt->execute();
     $stmt->bind_result($num_of_grades);
     $stmt->fetch();
@@ -69,7 +69,7 @@ if ($stmt = $con->prepare("SELECT COUNT(*) FROM " . $config["db"]["tables"]["gra
 
 // Get last inserted grade
 if ($stmt = $con->prepare("SELECT grade FROM " . $config["db"]["tables"]["grades"] . " WHERE user_id = ? AND year = ? ORDER BY id DESC LIMIT 1")) {
-    $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_years"]);
+    $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_year"]);
     $stmt->execute();
     $stmt->bind_result($last_grade);
     $stmt->fetch();
@@ -78,7 +78,7 @@ if ($stmt = $con->prepare("SELECT grade FROM " . $config["db"]["tables"]["grades
 
 // Calculate average
 if ($stmt = $con->prepare("SELECT average FROM " . $config["db"]["tables"]["subjects"] . " WHERE user_id = ? AND year = ?")) {
-    $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_years"]);
+    $stmt->bind_param("ss", $_SESSION["user_id"], $_SESSION["setting_year"]);
     $stmt->execute();
     $stmt->bind_result($average);
     $average_list = [];

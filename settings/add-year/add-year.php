@@ -54,7 +54,7 @@ if (isset($_POST["transfer_subjects"])) {
         $sql_string .= ")";
     }
     if ($stmt = $con->prepare($sql_string)) {
-        $stmt->bind_param($sql_types, $_SESSION["setting_years"], $_SESSION["user_id"], ...$transfer_subjects);
+        $stmt->bind_param($sql_types, $_SESSION["setting_year"], $_SESSION["user_id"], ...$transfer_subjects);
         $stmt->execute();
         $result = $stmt->get_result();
         $subjects = $result->fetch_all(MYSQLI_ASSOC);
@@ -94,6 +94,6 @@ if ($stmt = $con->prepare("INSERT INTO " . $config["db"]["tables"]["years"] . " 
 }
 
 // Set as current year
-$_SESSION["setting_years"] = $year_id;
+$_SESSION["setting_year"] = $year_id;
 
 exit("success");

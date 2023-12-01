@@ -48,7 +48,7 @@ $subjectID = bin2hex(random_bytes(4));
 
 // Add subject to DB and get inserted ID
 if ($stmt = $con->prepare('INSERT INTO ' . $config["db"]["tables"]["subjects"] . ' (id, name, color, user_id, weight_exam, weight_oral, weight_test, weight_other, year) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)')) {
-    $stmt->bind_param('ssssiisis', $subjectID, $subjectName, $subjectColor, $_SESSION["user_id"], $gradingTypeK, $gradingTypeM, $gradingTypeT, $gradingTypeS, $_SESSION["setting_years"]);
+    $stmt->bind_param('ssssiisis', $subjectID, $subjectName, $subjectColor, $_SESSION["user_id"], $gradingTypeK, $gradingTypeM, $gradingTypeT, $gradingTypeS, $_SESSION["setting_year"]);
     $stmt->execute();
     $stmt->close();
     exit(json_encode(array("success" => true, "subjectID" => $subjectID)));

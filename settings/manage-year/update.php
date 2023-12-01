@@ -34,12 +34,12 @@ if (strlen($_POST["year_name"]) < 1) {
 
 // Update year
 if ($stmt = $con->prepare("UPDATE " . $config["db"]["tables"]["years"] . " SET name = ? WHERE id = ? AND owner = ?")) {
-    $stmt->bind_param("sss", $_POST["year_name"], $_SESSION["setting_years"], $_SESSION["user_id"]);
+    $stmt->bind_param("sss", $_POST["year_name"], $_SESSION["setting_year"], $_SESSION["user_id"]);
     $stmt->execute();
     $stmt->close();
 }
 
 // Set new year
-$_SESSION["setting_years"] = isset($_POST["next"]) ? $_POST["next"] : "";
+$_SESSION["setting_year"] = isset($_POST["next"]) ? $_POST["next"] : "";
 
 exit("success");
