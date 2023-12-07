@@ -37,7 +37,7 @@ if ($stmt = $con->prepare("SELECT name, color, id, last_used, average FROM " . $
 }
 
 // Get year title
-if ($stmt = $con->prepare("SELECT name FROM " . $config["db"]["tables"]["accounts"] . " WHERE id = ?")) {
+if ($stmt = $con->prepare("SELECT name FROM " . $config["db"]["tables"]["years"] . " WHERE id = ?")) {
     $stmt->bind_param("s", $_SESSION["setting_year"]);
     $stmt->execute();
     $stmt->bind_result($year_name);
