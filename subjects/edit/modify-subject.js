@@ -24,7 +24,7 @@ subject_save_button.addEventListener('click', () => {
         success: (data) => {
             console.log(data);
             if (data == "success") {
-                location.assign("/subjects/subject?subject=" + subjectID);
+                location.assign("/subjects/grades?subject=" + subjectID);
             } else {
                 console.log(data);
             }
